@@ -1,0 +1,21 @@
+{
+  "name": "patchbay-book",
+  "version": "1.0.0",
+  "description": "The patchbay part of patch-book, a book rating system for patch-core compatible scuttlebutt clients",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssb://%zoL1riX2mELF0j3dydWtQ+go4nI4jaByvm5Z02cRyaQ=.sha256"
+  },
+  "author": "Anders Rune Jensen <arj03@protonmail.ch>",
+  "license": "Beerware",
+  "dependencies": {
+    "patch-book": "^1.0.0",
+  }
+}
