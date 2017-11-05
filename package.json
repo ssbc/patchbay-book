@@ -11,11 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssb://%zoL1riX2mELF0j3dydWtQ+go4nI4jaByvm5Z02cRyaQ=.sha256"
+    "url": "ssb://%XRuVL/LEGbdpRjmhcH0P0tWEaoNjDF3b68yVXvt41pg=.sha256"
   },
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
   "dependencies": {
-    "patch-book": "^1.0.0",
+    "patch-book": "^1.0.0"
   }
 }
