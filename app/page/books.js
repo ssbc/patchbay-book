@@ -36,7 +36,7 @@ exports.create = function (api) {
 
     pull(
       api.book.pull.getAll(),
-      Scroller(container, content, api.book.html.render, false, false)
+      Scroller(container, content, api.book.html.render, true, true)
     )
 
     container.title = '/books'
