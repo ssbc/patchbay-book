@@ -48,14 +48,18 @@ exports.create = function (api) {
         }),
         Scroller(container, content, api.book.html.render, true, true)
       )
+
+      container.title = '/books?' + path.query
+
     } else {
       pull(
         api.book.pull.getAll(),
         Scroller(container, content, api.book.html.render, true, true)
       )
+
+      container.title = '/books'
     }
 
-    container.title = '/books'
     return container
   }
 }
