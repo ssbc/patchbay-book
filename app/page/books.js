@@ -9,6 +9,7 @@ exports.gives = nest({
 })
 
 exports.needs = nest({
+  'about.obs.latestValue': 'first',
   'app.html.scroller': 'first',
   'book.pull.getAll': 'first',
   'book.html': {
@@ -34,10 +35,25 @@ exports.create = function (api) {
     const creator = api.book.html.create({})
     const { container, content } = api.app.html.scroller({prepend: [creator]})
 
-    pull(
-      api.book.pull.getAll(),
-      Scroller(container, content, api.book.html.render, true, true)
-    )
+    if (path.query) {
+      const [ qkey, qvalue ] = path.query.split("=")
+
+      pull(
+        api.book.pull.getAll(),
+        pull.filter(msg => msg.key),
+        pull.filter((msg) => {
+          let originalValue = msg.value.content[qkey]
+          let latestAbout = api.about.obs.latestValue(msg.key, qkey)()
+          return (latestAbout || originalValue) == qvalue
+        }),
+        Scroller(container, content, api.book.html.render, true, true)
+      )
+    } else {
+      pull(
+        api.book.pull.getAll(),
+        Scroller(container, content, api.book.html.render, true, true)
+      )
+    }
 
     container.title = '/books'
     return container
