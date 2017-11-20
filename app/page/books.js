@@ -9,9 +9,13 @@ exports.gives = nest({
 })
 
 exports.needs = nest({
-  'about.obs.latestValue': 'first',
+  'about.obs': {
+    latestValue: 'first',
+    valueFrom: 'first'
+  },
   'app.sync.goTo': 'first',
   'app.html.scroller': 'first',
+  'keys.sync.id': 'first',
   'book.pull.getAll': 'first',
   'book.html': {
     create: 'first',
@@ -27,21 +31,31 @@ exports.create = function (api) {
 
   function menuItem (handleClick) {
     return h('a', {
-      style: { order: 5 },
+      style: { order: 0 },
       'ev-click': () => handleClick({ page: 'books' })
     }, '/books')
   }
 
-  function mapAuthors(authors)
+  function queryLink(key, value)
   {
-    return map(authors, a => {
-      return h('li', h('a', { 'href': '#',
-                              'ev-click': () => api.app.sync.goTo({
-                                page: 'books',
-                                query: 'authors=' + a
-                              })
-                            }, a))
-    })
+    return h('a', { 'href': '#',
+                    'ev-click': () => api.app.sync.goTo({
+                      page: 'books',
+                      query: key + '=' + value
+                    })
+                  }, value)
+  }
+
+  function mapLinks(list, key)
+  {
+    return map(list, l => h('li', queryLink(key, l)))
+  }
+
+  function latestValue(msg, key)
+  {
+    let originalValue = msg.value.content[key]
+    let latestAbout = api.about.obs.latestValue(msg.key, key)()
+    return latestAbout || originalValue
   }
 
   function booksPage (path) {
@@ -49,20 +63,25 @@ exports.create = function (api) {
     const scrollerContent = h('section.content')
 
     const authors = Set()
-    const authorsSection = h('section.right',
-                             ['Authors:', h('ul', mapAuthors(authors))])
+    const genres = Set()
+    const shelves = Set()
+
+    const filterSection = h('section.right',
+                            ['Authors:', h('ul', mapLinks(authors, "authors")),
+                             'Genres:', h('ul', mapLinks(genres, "genre")),
+                             'Shelves:', h('ul', mapLinks(shelves, "shelve"))])
 
     pull(
       api.book.pull.getAll(),
       pull.filter(msg => msg.key),
       pull.drain((msg) => {
-        let originalValue = msg.value.content['authors']
-        let latestAbout = api.about.obs.latestValue(msg.key, 'authors')()
-        authors.add(latestAbout || originalValue)
+        authors.add(latestValue(msg, 'authors'))
+        genres.add(latestValue(msg, 'genre'))
+        shelves.add(api.about.obs.valueFrom(msg.key, "shelve", api.keys.sync.id())())
       })
     )
 
-    const content = h('div.books', [scrollerContent, authorsSection])
+    const content = h('div.books', [scrollerContent, filterSection])
 
     const { container } = api.app.html.scroller({prepend: [creator], content: content})
 
