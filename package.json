@@ -1,6 +1,6 @@
 {
   "name": "patchbay-book",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The patchbay part of patch-book, a book rating system for patchcore compatible scuttlebutt clients",
   "main": "index.js",
   "directories": {
@@ -16,6 +16,6 @@
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
   "dependencies": {
-    "patch-book": "^1.0.3"
+    "patch-book": "^1.0.8"
   }
 }
