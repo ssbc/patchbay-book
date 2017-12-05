@@ -69,7 +69,7 @@ exports.create = function (api) {
     const filterSection = h('section.right',
                             ['Authors:', h('ul', mapLinks(authors, "authors")),
                              'Genres:', h('ul', mapLinks(genres, "genre")),
-                             'Shelves:', h('ul', mapLinks(shelves, "shelve"))])
+                             'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
 
     pull(
       api.book.pull.getAll(),
