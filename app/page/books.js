@@ -1,6 +1,6 @@
 const nest = require('depnest')
 const pull = require('pull-stream')
-const { h, Set, map } = require('mutant')
+const { h, Set, map, computed } = require('mutant')
 const Scroller = require('pull-scroll')
 
 exports.gives = nest({
@@ -48,7 +48,7 @@ exports.create = function (api) {
 
   function mapLinks(list, key)
   {
-    return map(list, l => h('li', queryLink(key, l)))
+    return map(computed([list], (list) => list.sort()), l => h('li', queryLink(key, l)))
   }
 
   function latestValue(msg, key)
