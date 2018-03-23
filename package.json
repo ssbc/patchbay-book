@@ -1,6 +1,6 @@
 {
   "name": "patchbay-book",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "The patchbay part of patch-book, a book rating system for patchcore compatible scuttlebutt clients",
   "main": "index.js",
   "directories": {
