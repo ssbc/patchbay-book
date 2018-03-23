@@ -76,7 +76,11 @@ exports.create = function (api) {
       pull.filter(msg => msg.key),
       pull.drain((msg) => {
         authors.add(latestValue(msg, 'authors'))
-        genres.add(latestValue(msg, 'genre'))
+
+        let genre = latestValue(msg, 'genre')
+        if (genre && !genres().map(g => g.toLowerCase()).includes(genre.toLowerCase()))
+          genres.add(genre)
+
         shelves.add(api.about.obs.valueFrom(msg.key, "shelve", api.keys.sync.id())())
       })
     )
@@ -88,13 +92,17 @@ exports.create = function (api) {
     if (path.query) {
       const [ qkey, qvalue ] = path.query.split("=")
 
+      let lowercaseQvalue = qvalue.toLowerCase()
+
       pull(
         api.book.pull.getAll(),
         pull.filter(msg => msg.key),
         pull.filter((msg) => {
           let originalValue = msg.value.content[qkey]
           let latestAbout = api.about.obs.latestValue(msg.key, qkey)()
-          return (latestAbout || originalValue) == qvalue
+          let value = (latestAbout || originalValue) ? (latestAbout || originalValue).toLowerCase() : ''
+
+          return value == lowercaseQvalue
         }),
         Scroller(container, scrollerContent, api.book.html.render, true, true)
       )
