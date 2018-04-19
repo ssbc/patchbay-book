@@ -41,7 +41,8 @@ exports.create = function (api) {
     return h('a', { 'href': '#',
                     'ev-click': () => api.app.sync.goTo({
                       page: 'books',
-                      query: key + '=' + value
+                      queryKey: key,
+                      queryValue: value
                     })
                   }, value)
   }
@@ -58,7 +59,8 @@ exports.create = function (api) {
     return latestAbout || originalValue
   }
 
-  function booksPage (path) {
+  function booksPage (location) {
+    const { queryKey, queryValue } = location
     const creator = api.book.html.create({})
     const scrollerContent = h('section.content')
 
@@ -89,25 +91,23 @@ exports.create = function (api) {
 
     const { container } = api.app.html.scroller({prepend: [creator], content: content})
 
-    if (path.query) {
-      const [ qkey, qvalue ] = path.query.split("=")
-
-      let lowercaseQvalue = qvalue.toLowerCase()
+    if (queryKey && queryValue) {
+      let lowercaseQueryValue = queryValue.toLowerCase()
 
       pull(
         api.book.pull.getAll(),
         pull.filter(msg => msg.key),
         pull.filter((msg) => {
-          let originalValue = msg.value.content[qkey]
-          let latestAbout = api.about.obs.latestValue(msg.key, qkey)()
+          let originalValue = msg.value.content[queryKey]
+          let latestAbout = api.about.obs.latestValue(msg.key, queryKey)()
           let value = (latestAbout || originalValue) ? (latestAbout || originalValue).toLowerCase() : ''
 
-          return value == lowercaseQvalue
+          return value == lowercaseQueryValue
         }),
         Scroller(container, scrollerContent, api.book.html.render, true, true)
       )
 
-      container.title = '/books?' + path.query
+      container.title = '/books ' + queryKey + ' = ' + queryValue
 
     } else {
       pull(
