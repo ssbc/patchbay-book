@@ -1,0 +1,122 @@
+Message -book-card {
+  padding: 1rem .5rem
+
+  display: grid
+  grid-template-columns: 5rem auto
+  grid-template-rows: 0 auto
+
+  section.avatar {
+    grid-column: 1 / 2
+    grid-row: 1 / span 4
+  }
+
+  section.content {
+    grid-column: 2 / 3
+    grid-row: 2 / span 1
+
+    margin-bottom: .5rem
+
+    color: initial 
+    :hover { text-decoration: none }
+
+    div.details {
+      border: 1px gainsboro solid
+      padding: .5rem
+
+      display: flex
+
+      section.images img {
+        max-width: 200px
+        max-height: 200px
+      }
+
+      div {
+        margin-left: 1rem
+
+        section.title {
+          font-size: 1.5rem
+        }
+
+        section.series {
+          span.seriesNo {
+            margin-left: 5px
+          }
+        }
+
+        span.text {
+          vertical-align: text-bottom
+
+          img.emoji {
+            height: 1.2em
+            width: 1.2em
+            vertical-align: middle
+            margin-top: -0.2em
+          }
+        }
+
+        section.authors {
+          font-style: italic
+        }
+      }
+    }
+
+    div.toggle-layout {
+      position: absolute
+      top: 3.0rem
+      right: 1rem
+      border: none
+      border-radius: 0
+      background-color: rgba(255,255,255,0.2)
+      color: #fff
+      font-size: 1rem
+      font-weight: 600
+      line-height: .8rem
+    }
+  }
+
+  section.raw-content {
+    grid-column: 2 / 3
+    grid-row: 3 / span 1
+
+    pre {
+      border: 1px gainsboro solid
+      padding: .8rem
+      background-color: #f5f5f5
+      color: #c121dc
+      padding: .3rem
+      white-space: pre-wrap
+      word-wrap: break-word
+
+      span {
+        font-weight: 600
+      }
+      a {
+        word-break: break-all
+      }
+    }
+  }
+
+  section.bottom {
+    grid-column: 2 / 3
+    grid-row: 4 / span 1
+
+    display: flex
+    align-items: center
+
+    section.timestamp {
+      flex-grow: 1
+
+      a {
+        font-size: .9rem
+        $textSubtle
+      }
+    }
+
+    section.meta {
+      font-size: .9rem
+      a {
+        margin-left: .5em
+      }
+    }
+  }
+}
