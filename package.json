@@ -16,7 +16,8 @@
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
   "dependencies": {
-    "scuttle-book": "^1.0.0"
+    "scuttle-book": "^1.0.0",
+    "scuttle-blob": "^1.0.2",
     "ssb-book-schema": "^1.0.0"
   }
 }

@@ -1,10 +1,10 @@
 const plugs = {
   app: {
     page: {
-      gatherings: require('./app/page/books')
+      books: require('./app/page/books')
     }
   },
-  book: { // FIXME: this is create new book
+  book: {
     html: {
       button: require('./book/html/button')
     },
