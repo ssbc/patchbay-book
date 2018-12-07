@@ -18,6 +18,7 @@
   "dependencies": {
     "lodash.pick": "^4.4.0",
     "micro-css": "^2.0.1",
+    "mutant": "^3.22.1",
     "read-directory": "^3.0.1",
     "scuttle-book": "^1.0.0",
     "scuttle-blob": "^1.0.2",
