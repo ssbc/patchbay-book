@@ -27,6 +27,7 @@ module.exports = function BookNew (opts) {
   function publish () {
     const { title, description, location, image, day, time, progenitor, mentions, recps } = resolve(state)
 
+    // ??
     if (description) opts.description = description
     if (location) opts.location = location
     if (image) opts.image = image

@@ -29,16 +29,18 @@ module.exports = function BookForm (opts) {
         value: state.authors
       }),
       h('label.series', 'Series'),
-      h('input', {
-        'ev-input': ev => state.series.set(ev.target.value),
-        value: state.series,
-        placeholder: '(optional)'
-      }),
-      h('input', {
-        'ev-input': ev => state.seriesNo.set(ev.target.value),
-        value: state.seriesNo,
-        placeholder: 'No (optional)'
-      }),
+      h('div.series', [
+        h('input', {
+          'ev-input': ev => state.series.set(ev.target.value),
+          value: state.series,
+          placeholder: '(optional)'
+        }),
+        h('input', {
+          'ev-input': ev => state.seriesNo.set(ev.target.value),
+          value: state.seriesNo,
+          placeholder: 'No (optional)'
+        })
+      ]),
       h('label', 'Image'),
       h('div.image-input', [
         imageInput(),
