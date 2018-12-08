@@ -16,6 +16,7 @@
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
   "dependencies": {
+    "lodash.isequal": "^4.5.0",
     "lodash.pick": "^4.4.0",
     "micro-css": "^2.0.1",
     "mutant": "^3.22.1",
