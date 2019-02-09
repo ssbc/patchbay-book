@@ -3,7 +3,6 @@ const { h, when, computed, Value, map } = require('mutant')
 const addSuggest = require('suggest-box')
 
 exports.needs = nest({
-  'book.obs.book': 'first',
   'about.html.image': 'first',
   'about.obs.name': 'first',
   'keys.sync.id': 'first',
@@ -14,14 +13,6 @@ exports.needs = nest({
     markdown: 'first',
     timestamp: 'first',
     backlinks: 'first'
-  },
-  'book.html': {
-    title: 'first',
-    authors: 'first',
-    series: 'first',
-    description: 'first',
-    images: 'first',
-    simpleEmoji: 'first'
   }
 })
 
@@ -208,6 +199,8 @@ exports.create = (api) => {
   function bookLayout(msg, opts) {
     const { layout, obs, isEditing, isCard } = opts
 
+    return // not yet ready
+    
     if (layout !== undefined && layout !== 'detail') return
 
     const { title, authors, description,

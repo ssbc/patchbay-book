@@ -2,6 +2,7 @@ const nest = require('depnest')
 const pull = require('pull-stream')
 const { h, Set, map, computed } = require('mutant')
 const Scroller = require('pull-scroll')
+const allBooks = require('scuttle-book/pull/books')
 
 exports.gives = nest({
   'app.html.menuItem': true,
@@ -16,11 +17,8 @@ exports.needs = nest({
   'app.sync.goTo': 'first',
   'app.html.scroller': 'first',
   'keys.sync.id': 'first',
-  'book.pull.getAll': 'first',
-  'book.html': {
-    create: 'first',
-    render: 'first'
-  }
+  'message.html.render.book': 'first',
+  'book.html.button': 'first' // create new
 })
 
 exports.create = function (api) {
@@ -61,7 +59,6 @@ exports.create = function (api) {
 
   function booksPage (location) {
     const { queryKey, queryValue } = location
-    const creator = api.book.html.create({})
     const scrollerContent = h('section.content')
 
     const authors = Set()
@@ -74,7 +71,7 @@ exports.create = function (api) {
                              'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
 
     pull(
-      api.book.pull.getAll(),
+      allBooks(),
       pull.filter(msg => msg.key),
       pull.drain((msg) => {
         authors.add(latestValue(msg, 'authors'))
@@ -89,13 +86,13 @@ exports.create = function (api) {
 
     const content = h('div.books', [scrollerContent, filterSection])
 
-    const { container } = api.app.html.scroller({prepend: [creator], content: content})
+    const { container } = api.app.html.scroller({prepend: [api.book.html.button()], content: content})
 
     if (queryKey && queryValue) {
       let lowercaseQueryValue = queryValue.toLowerCase()
 
       pull(
-        api.book.pull.getAll(),
+        allBooks(),
         pull.filter(msg => msg.key),
         pull.filter((msg) => {
           let originalValue = msg.value.content[queryKey]
@@ -104,15 +101,15 @@ exports.create = function (api) {
 
           return value == lowercaseQueryValue
         }),
-        Scroller(container, scrollerContent, api.book.html.render, true, true)
+        Scroller(container, scrollerContent, api.message.html.render.book, true, true)
       )
 
       container.title = '/books ' + queryKey + ' = ' + queryValue
 
     } else {
       pull(
-        api.book.pull.getAll(),
-        Scroller(container, scrollerContent, api.book.html.render, true, true)
+        allBooks(),
+        Scroller(container, scrollerContent, api.message.html.render.book, true, true)
       )
 
       container.title = '/books'

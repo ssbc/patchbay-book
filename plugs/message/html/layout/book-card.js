@@ -16,7 +16,7 @@ exports.needs = nest({
 })
 
 exports.create = (api) => {
-  return nest('message.html.layout', gatheringLayout)
+  return nest('message.html.layout', bookLayout)
 
   function bookLayout (msg, opts = {}) {
     if (!(opts.layout === undefined || opts.layout === 'card')) return

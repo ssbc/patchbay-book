@@ -20,10 +20,10 @@ exports.needs = nest({
 
 exports.create = function (api) {
   return nest({
-    'gathering.sync.launchModal': GatheringLaunchModal
+    'book.sync.launchModal': BookLaunchModal
   })
 
-  function GatheringLaunchModal (initialState, root) {
+  function BookLaunchModal (initialState, root) {
     // initialState: see /lib/form-state.js
 
     const isOpen = Value(false)
