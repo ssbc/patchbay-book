@@ -1,4 +1,9 @@
+const nest = require('depnest')
 const { h, Value, computed } = require('mutant')
+
+exports.needs = nest({
+  'app.sync.goTo': 'first'
+})
 
 module.exports = function bookCard (opts) {
   const {
@@ -8,16 +13,14 @@ module.exports = function bookCard (opts) {
   } = opts
 
   const state = Value()
-  scuttle.get(book.key, (err, data) => {
-    if (err) throw (err)
-
+  scuttle.get(book.key, false, (data) => {
     state.set(data)
   })
 
   return h('BookCard', computed(state, state => {
     if (!state) return 'Loading...' // TODO - make nicer
 
-    const { title, authors, images } = state
+    const { title, authors, image } = state.common
 
     return [
       h('div.details', [

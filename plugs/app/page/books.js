@@ -1,8 +1,8 @@
 const nest = require('depnest')
 const pull = require('pull-stream')
-const { h, Set, map, computed } = require('mutant')
+const { h, Set, map, computed, onceTrue } = require('mutant')
 const Scroller = require('pull-scroll')
-const allBooks = require('scuttle-book/pull/books')
+const Books = require('scuttle-book/pull/books')
 
 exports.gives = nest({
   'app.html.menuItem': true,
@@ -14,6 +14,7 @@ exports.needs = nest({
     latestValue: 'first',
     valueFrom: 'first'
   },
+  'sbot.obs.connection': 'first',
   'app.sync.goTo': 'first',
   'app.html.scroller': 'first',
   'keys.sync.id': 'first',
@@ -59,62 +60,78 @@ exports.create = function (api) {
 
   function booksPage (location) {
     const { queryKey, queryValue } = location
-    const scrollerContent = h('section.content')
 
     const authors = Set()
     const genres = Set()
     const shelves = Set()
 
-    const filterSection = h('section.right',
-                            ['Authors:', h('ul', mapLinks(authors, "authors")),
-                             'Genres:', h('ul', mapLinks(genres, "genre")),
-                             'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
+    onceTrue(api.sbot.obs.connection, function(server) {
+      const allBooks = Books(server)
 
-    pull(
-      allBooks(),
-      pull.filter(msg => msg.key),
-      pull.drain((msg) => {
-        authors.add(latestValue(msg, 'authors'))
+      const filterSection = h('section.right',
+                              ['Authors:', h('ul', mapLinks(authors, "authors")),
+                               'Genres:', h('ul', mapLinks(genres, "genre")),
+                               'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
 
-        let genre = latestValue(msg, 'genre')
-        if (genre && !genres().map(g => g.toLowerCase()).includes(genre.toLowerCase()))
-          genres.add(genre)
+      // FIXME: use hydrated values for this
 
-        shelves.add(api.about.obs.valueFrom(msg.key, "shelve", api.keys.sync.id())())
-      })
-    )
-
-    const content = h('div.books', [scrollerContent, filterSection])
-
-    const { container } = api.app.html.scroller({prepend: [api.book.html.button()], content: content})
-
-    if (queryKey && queryValue) {
-      let lowercaseQueryValue = queryValue.toLowerCase()
-
+      /*
       pull(
         allBooks(),
         pull.filter(msg => msg.key),
-        pull.filter((msg) => {
-          let originalValue = msg.value.content[queryKey]
-          let latestAbout = api.about.obs.latestValue(msg.key, queryKey)()
-          let value = (latestAbout || originalValue) ? (latestAbout || originalValue).toLowerCase() : ''
+        pull.drain((msg) => {
+          authors.add(latestValue(msg, 'authors'))
 
-          return value == lowercaseQueryValue
-        }),
-        Scroller(container, scrollerContent, api.message.html.render.book, true, true)
+          let genre = latestValue(msg, 'genre')
+          if (genre && !genres().map(g => g.toLowerCase()).includes(genre.toLowerCase()))
+            genres.add(genre)
+
+          shelves.add(api.about.obs.valueFrom(msg.key, "shelve", api.keys.sync.id())())
+        })
       )
+      */
 
-      container.title = '/books ' + queryKey + ' = ' + queryValue
+      const { container, content } = api.app.html.scroller({
+        prepend: [api.book.html.button()]
+      })
 
-    } else {
-      pull(
-        allBooks(),
-        Scroller(container, scrollerContent, api.message.html.render.book, true, true)
-      )
+      if (queryKey && queryValue) {
+        let lowercaseQueryValue = queryValue.toLowerCase()
 
-      container.title = '/books'
-    }
+        pull(
+          allBooks(),
+          pull.filter(msg => msg.key),
+          pull.filter((msg) => {
+            // FIXME: can't do this anymore, not using about
+            let originalValue = msg.value.content[queryKey]
+            let latestAbout = api.about.obs.latestValue(msg.key, queryKey)()
+            let value = (latestAbout || originalValue) ? (latestAbout || originalValue).toLowerCase() : ''
 
-    return container
+            return value == lowercaseQueryValue
+          }),
+          Scroller(container, content, api.message.html.render.book, true, true)
+        )
+
+        container.title = '/books ' + queryKey + ' = ' + queryValue
+      }
+      else
+      {
+        console.log("pulling books!")
+        pull(
+          allBooks(),
+          pull.filter((msg) => {
+            console.log("filtering", msg)
+            return true
+          }),
+          // this line not working?
+          Scroller(container, content, api.message.html.render.book, false, false)
+        )
+
+        container.title = '/books'
+      }
+
+      console.log("container", container)
+      return container
+    })
   }
 }
