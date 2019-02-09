@@ -1,6 +1,6 @@
 {
   "name": "patchbay-book",
-  "version": "1.0.8",
+  "version": "2.0.0",
   "description": "The patchbay code for integrating scuttle-book",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssb://%XRuVL/LEGbdpRjmhcH0P0tWEaoNjDF3b68yVXvt41pg=.sha256"
+    "url": "git+https://github.com/arj/patchbay-book.git"
   },
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
@@ -23,6 +23,6 @@
     "read-directory": "^3.0.1",
     "scuttle-book": "^1.0.0",
     "scuttle-blob": "^1.0.2",
-    "ssb-book-schema": "^1.0.0"
+    "ssb-book-schema": "^1.0.1"
   }
 }
