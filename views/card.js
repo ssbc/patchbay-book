@@ -13,7 +13,7 @@ module.exports = function bookCard (opts) {
   } = opts
 
   const state = Value()
-  scuttle.get(book.key, false, (data) => {
+  scuttle.get(book.key, false, (err, data) => {
     state.set(data)
   })
 
