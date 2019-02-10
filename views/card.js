@@ -22,17 +22,21 @@ module.exports = function bookCard (opts) {
 
     const { title, authors, image } = state.common
 
+    let src = ''
+    if (image)
+      src = blobUrl(image.link)
+
     return [
       h('div.details', [
         h('h2', title),
         h('section.authors',
-          h('a', { 'href': '#',
+          h('a', { href: '#',
                    'ev-click': () => api.app.sync.goTo({
                      page: 'books',
                      query: 'authors=' + authors()
                    })
                  }, authors)),
-        h('img', {src: blobUrl(image.link)})
+        h('img', { src })
       ])
     ]
   }))

@@ -18,7 +18,7 @@ exports.needs = nest({
   'app.sync.goTo': 'first',
   'app.html.scroller': 'first',
   'keys.sync.id': 'first',
-  'message.html.render.book': 'first',
+  'message.html.render': 'first',
   'book.html.button': 'first' // create new
 })
 
@@ -65,6 +65,10 @@ exports.create = function (api) {
     const genres = Set()
     const shelves = Set()
 
+    const { container, content } = api.app.html.scroller({
+      prepend: [api.book.html.button()]
+    })
+
     onceTrue(api.sbot.obs.connection, function(server) {
       const allBooks = Books(server)
 
@@ -91,10 +95,6 @@ exports.create = function (api) {
       )
       */
 
-      const { container, content } = api.app.html.scroller({
-        prepend: [api.book.html.button()]
-      })
-
       if (queryKey && queryValue) {
         let lowercaseQueryValue = queryValue.toLowerCase()
 
@@ -109,7 +109,7 @@ exports.create = function (api) {
 
             return value == lowercaseQueryValue
           }),
-          Scroller(container, content, api.message.html.render.book, true, true)
+          Scroller(container, content, api.message.html.render, true, true)
         )
 
         container.title = '/books ' + queryKey + ' = ' + queryValue
@@ -119,19 +119,12 @@ exports.create = function (api) {
         console.log("pulling books!")
         pull(
           allBooks(),
-          pull.filter((msg) => {
-            console.log("filtering", msg)
-            return true
-          }),
-          // this line not working?
-          Scroller(container, content, api.message.html.render.book, false, false)
+          Scroller(container, content, api.message.html.render, true, true)
         )
-
-        container.title = '/books'
       }
-
-      console.log("container", container)
-      return container
     })
+
+    container.title = '/books'
+    return container
   }
 }
