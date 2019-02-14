@@ -1,4 +1,3 @@
-const nest = require('depnest')
 const { h, Value, computed, when } = require('mutant')
 
 module.exports = function bookCard (opts) {

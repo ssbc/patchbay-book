@@ -1,0 +1,191 @@
+BookShow {
+  --feature-color: hsla(320, 30%, 70%, 1)
+
+  section.about {
+    display: grid
+    align-content: start
+    min-height: 5rem
+
+    h1 {
+      font-size: 2rem
+    }
+
+    div.edit {
+      margin-top: -5rem
+      margin-right: 1rem
+
+      justify-self: end
+      i {
+        color: #999
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        border-radius: 4px
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+      }
+    }
+  }
+  
+  div.Series {
+    span.seriesNo {
+      margin-left: 5px
+    }
+  }
+
+  div.Authors {
+    font-style: italic
+  }
+
+  section.content {
+    column-count: 2
+    
+    div.Images img {
+      max-width: 300px
+      max-height: 300px
+    }
+
+    div.Description {
+      min-height: 3rem
+
+      div.Description {
+        margin-top: 10px
+
+        textarea {
+          border: 1px solid gainsboro
+          width: 300px
+          height: 250px
+        }
+      }
+    }
+  }
+  
+  section.subjective {
+    margin-top: 30px
+
+    section.actions {
+      flex-basis: 100%
+      display: flex
+      justify-content: flex-end
+    }
+
+    div {
+      -contracted {
+        display: none
+      }
+
+      -expanded {
+        display: block
+      }
+
+      input {
+        border: 1px solid gainsboro
+        height: 1.3rem
+        margin-left: 5px
+        margin-bottom: 5px
+        padding: 5px
+      }
+
+      span {
+        textarea {
+          border: 1px solid gainsboro
+          width: 600px
+          height: 250px
+        }
+      }
+    }
+    
+    section.top {
+      border-top: 1px solid gainsboro
+      padding-top: 10px
+    }
+      
+    section {
+      margin-top: 5px
+      line-height: 2rem
+
+      input, span.ratingType input {
+        border: 1px solid gainsboro
+        width: 80px
+        height: 1.3rem
+        margin-left: 5px
+        padding: 5px
+        vertical-align: text-bottom
+      }
+
+      img.Avatar {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.5rem
+      }
+
+      span.text {
+        vertical-align: text-bottom
+
+        img.emoji {
+          height: 1.2em;
+          width: 1.2em;
+          vertical-align: middle;
+          margin-top: -0.2em;
+        }
+      }
+    }
+
+    section.comments {
+      span {
+        textarea {
+          border: 1px solid gainsboro
+          width: 500px
+          height: 200px
+          display: block
+          margin-left: 3rem
+        }
+      }
+
+      button {
+        margin-left: 3rem
+      }
+
+      div {
+        position: relative
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: flex-end
+
+        section.avatar {
+          position: absolute
+          left: 0.5rem
+          img.Avatar {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.5rem
+          }
+        }
+
+        section.authorTime {
+          font-size: 0.8rem
+          flex-basis: 93%
+          a.Timestamp {
+            margin-left: 0.3rem
+          }
+        }
+
+        section.content {
+          flex-basis: 93%
+
+          img.emoji {
+            height: 1.2em;
+            width: 1.2em;
+            vertical-align: middle;
+            margin-top: -0.2em;
+          }
+        }
+      }
+    }
+  }
+}
