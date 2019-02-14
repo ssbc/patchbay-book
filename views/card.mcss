@@ -1,24 +1,50 @@
 BookCard {
-  cursor: pointer
+  grid-column: 2 / 3
+  grid-row: 2 / span 1
 
-  (img) {
-    max-width: 100%
-  }
-
-  display: grid
-  grid-template-columns: auto auto
+  margin-bottom: .5rem
 
   color: initial 
   :hover { text-decoration: none }
 
   div.details {
     border: 1px gainsboro solid
-    border-right: none
-    padding: 1rem
+    padding: .5rem
 
-    h2 {
-      font-size: 1.8rem
-      margin-top: 0
+    display: flex
+
+    div.Images img {
+      max-width: 200px
+      max-height: 200px
+    }
+
+    div {
+      margin-left: 1rem
+
+      h2 {
+        font-size: 1.8rem
+      }
+
+      div.Series {
+        span.seriesNo {
+          margin-left: 5px
+        }
+      }
+
+      div.Description {
+        vertical-align: text-bottom
+
+        img.emoji {
+          height: 1.2em
+          width: 1.2em
+          vertical-align: middle
+          margin-top: -0.2em
+        }
+      }
+
+      div.Authors {
+        font-style: italic
+      }
     }
   }
 }

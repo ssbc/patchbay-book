@@ -8,6 +8,40 @@ Message -book-card {
   section.avatar {
     grid-column: 1 / 2
     grid-row: 1 / span 4
+    a img {
+    }
+  }
+
+  section.top {
+    grid-column: 2 / 3
+    grid-row: 1 / span 1
+
+    display: flex
+    align-items: baseline
+
+    div.author {
+      font-weight: 600
+      margin-right: .5rem
+      (a) { color: #222 }
+    }
+
+    div.title {
+      flex-grow: 1
+      font-size: .9rem
+      $textSubtle
+      (a) { $textSubtle }
+    }
+
+    div.meta {
+      display: flex
+      justify-content: flex-end
+      align-items: center
+
+      a {
+        $textSubtle
+        margin-left: .5rem
+      }
+    }
   }
 
   section.content {
@@ -16,62 +50,6 @@ Message -book-card {
 
     margin-bottom: .5rem
 
-    color: initial 
-    :hover { text-decoration: none }
-
-    div.details {
-      border: 1px gainsboro solid
-      padding: .5rem
-
-      display: flex
-
-      section.images img {
-        max-width: 200px
-        max-height: 200px
-      }
-
-      div {
-        margin-left: 1rem
-
-        section.title {
-          font-size: 1.5rem
-        }
-
-        section.series {
-          span.seriesNo {
-            margin-left: 5px
-          }
-        }
-
-        span.text {
-          vertical-align: text-bottom
-
-          img.emoji {
-            height: 1.2em
-            width: 1.2em
-            vertical-align: middle
-            margin-top: -0.2em
-          }
-        }
-
-        section.authors {
-          font-style: italic
-        }
-      }
-    }
-
-    div.toggle-layout {
-      position: absolute
-      top: 3.0rem
-      right: 1rem
-      border: none
-      border-radius: 0
-      background-color: rgba(255,255,255,0.2)
-      color: #fff
-      font-size: 1rem
-      font-weight: 600
-      line-height: .8rem
-    }
   }
 
   section.raw-content {
@@ -103,7 +81,7 @@ Message -book-card {
     display: flex
     align-items: center
 
-    section.timestamp {
+    div.timestamp {
       flex-grow: 1
 
       a {
@@ -112,11 +90,25 @@ Message -book-card {
       }
     }
 
-    section.meta {
+    div.actions {
+      display: flex
+      justify-content: flex-end
+
       font-size: .9rem
       a {
         margin-left: .5em
       }
+
+      a.unlike {
+        $textSubtle
+      }
     }
+  }
+
+  footer.backlinks {
+    grid-row: 5 / span 1
+
+    grid-column: 2 / 3
+    flex-basis: 100%
   }
 }

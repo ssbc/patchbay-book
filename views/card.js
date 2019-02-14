@@ -1,15 +1,13 @@
 const nest = require('depnest')
-const { h, Value, computed } = require('mutant')
-
-exports.needs = nest({
-  'app.sync.goTo': 'first'
-})
+const { h, Value, computed, when } = require('mutant')
 
 module.exports = function bookCard (opts) {
   const {
     book,
     scuttle,
-    blobUrl = () => ''
+    blobUrl = () => '',
+    markdown,
+    goTo
   } = opts
 
   const state = Value()
@@ -20,7 +18,7 @@ module.exports = function bookCard (opts) {
   return h('BookCard', computed(state, state => {
     if (!state) return 'Loading...' // TODO - make nicer
 
-    const { title, authors, image } = state.common
+    const { title, description, authors, image, series, seriesNo } = state.common
 
     let src = ''
     if (image)
@@ -28,15 +26,31 @@ module.exports = function bookCard (opts) {
 
     return [
       h('div.details', [
-        h('h2', title),
-        h('section.authors',
-          h('a', { href: '#',
-                   'ev-click': () => api.app.sync.goTo({
-                     page: 'books',
-                     query: 'authors=' + authors()
-                   })
-                 }, authors)),
-        h('img', { src })
+        h('Images',
+          h('img', { src })),
+        h('div', [
+          h('h2', title),
+          h('Series', [
+            h('a', { 'href': '#',
+                     'ev-click': () => goTo({
+                       page: 'books',
+                       query: 'series=' + series()
+                     })
+                   }, series),
+            when(seriesNo, h('span.seriesNo', seriesNo))
+          ]),
+          h('Authors',
+            h('a', { href: '#',
+                     'ev-click': () => goTo({
+                       page: 'books',
+                       query: 'authors=' + authors()
+                     })
+                   }, authors)),
+          // ratings
+          h('Description', [
+            computed(description, (d) => d ? markdown(d.length > 250 ? d.substring(0, 250) + '...' : d) : '')
+          ])
+        ])
       ])
     ]
   }))
