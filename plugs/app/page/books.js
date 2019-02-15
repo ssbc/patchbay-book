@@ -31,41 +31,63 @@ exports.create = function (api) {
     }, '/books')
   }
 
-  function queryLink(key, value)
+  function queryLink(value)
   {
-    return h('a', {
-      'href': '#',
-      'ev-click': () =>  {
-        api.app.sync.goTo({
-          page: 'books',
-          queryKey: key,
-          queryValue: value
-        })
-      }
-    }, value)
+    if (value == "")
+      return h('option', { selected: 'selected' })
+    else
+      return h('option', value)
   }
 
-  function mapLinks(list, key)
+  function mapLinks(list)
   {
-    return map(computed([list], (list) => list.sort()), l => h('li', queryLink(key, l)))
+    return map(computed([list], (list) => list.sort()), l => queryLink(l))
   }
 
   function booksPage (location) {
     const { queryKey, queryValue } = location
 
     const authors = Set()
+    authors.add("")
     const genres = Set()
+    genres.add("")
     const shelves = Set()
+    shelves.add("")
 
     const scrollerContent = h('section.content')
-    const filterSection = h('section.right',
-                            ['Authors:', h('ul', mapLinks(authors, "authors")),
-                             'Genres:', h('ul', mapLinks(genres, "genre")),
-                             'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
+    const filterSection = h('section.filters',
+                            [h('span.authors', ['Authors:', h('select', {
+                              'ev-change': (ev) => {
+                                api.app.sync.goTo({
+                                  page: 'books',
+                                  queryKey: "authors",
+                                  queryValue: ev.target.selectedOptions[0].value
+                                })
+                              }
+                            }, mapLinks(authors))]),
+                             h('span.genres', ['Genres:', h('select', {
+                               'ev-change': (ev) => {
+                                 api.app.sync.goTo({
+                                   page: 'books',
+                                   queryKey: "genre",
+                                   queryValue: ev.target.selectedOptions[0].value
+                                })
+                               }
+                             }, mapLinks(genres))]),
+                             h('span.shelves', ['Your shelves:', h('select', {
+                               'ev-change': (ev) => {
+                                 api.app.sync.goTo({
+                                   page: 'books',
+                                   queryKey: "shelve",
+                                   queryValue: ev.target.selectedOptions[0].value
+                                })
+                               }
+                             }, mapLinks(shelves))])
+                            ])
 
-    const content = h('div.books', [scrollerContent, filterSection])
+    const content = h('div.books', [scrollerContent])
     const { container } = api.app.html.scroller({
-      prepend: [api.book.html.button()],
+      prepend: [api.book.html.button(), filterSection],
       content: content
     })
 

@@ -1,0 +1,17 @@
+section.filters {
+  font-weight: 600
+  margin-top: 0.5rem
+  text-align: center
+
+  span.genres {
+    margin-left: 10px
+  }
+
+  span.shelves {
+    margin-left: 10px
+  }
+
+  span select {
+    margin-left: 5px
+  }
+}
