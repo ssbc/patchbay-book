@@ -31,19 +31,23 @@ module.exports = function bookCard (opts) {
           h('h2', title),
           h('Series', [
             h('a', { 'href': '#',
-                     'ev-click': () => goTo({
-                       page: 'books',
-                       query: 'series=' + series()
-                     })
+                     'ev-click': () => {
+                       goTo({
+                         page: 'books',
+                         query: 'series=' + series
+                       })
+                     }
                    }, series),
             when(seriesNo, h('span.seriesNo', seriesNo))
           ]),
           h('Authors',
             h('a', { href: '#',
-                     'ev-click': () => goTo({
-                       page: 'books',
-                       query: 'authors=' + authors()
-                     })
+                     'ev-click': (e) => {
+                       goTo({
+                         page: 'books',
+                         query: 'authors=' + authors
+                       })
+                     }
                    }, authors)),
           // ratings
           h('Description', [

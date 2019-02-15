@@ -10,10 +10,6 @@ exports.gives = nest({
 })
 
 exports.needs = nest({
-  'about.obs': {
-    latestValue: 'first',
-    valueFrom: 'first'
-  },
   'sbot.obs.connection': 'first',
   'app.sync.goTo': 'first',
   'app.html.scroller': 'first',
@@ -37,25 +33,21 @@ exports.create = function (api) {
 
   function queryLink(key, value)
   {
-    return h('a', { 'href': '#',
-                    'ev-click': () => api.app.sync.goTo({
-                      page: 'books',
-                      queryKey: key,
-                      queryValue: value
-                    })
-                  }, value)
+    return h('a', {
+      'href': '#',
+      'ev-click': () =>  {
+        api.app.sync.goTo({
+          page: 'books',
+          queryKey: key,
+          queryValue: value
+        })
+      }
+    }, value)
   }
 
   function mapLinks(list, key)
   {
     return map(computed([list], (list) => list.sort()), l => h('li', queryLink(key, l)))
-  }
-
-  function latestValue(msg, key)
-  {
-    let originalValue = msg.value.content[key]
-    let latestAbout = api.about.obs.latestValue(msg.key, key)()
-    return latestAbout || originalValue
   }
 
   function booksPage (location) {
@@ -65,51 +57,55 @@ exports.create = function (api) {
     const genres = Set()
     const shelves = Set()
 
-    const { container, content } = api.app.html.scroller({
-      prepend: [api.book.html.button()]
+    const scrollerContent = h('section.content')
+    const filterSection = h('section.right',
+                            ['Authors:', h('ul', mapLinks(authors, "authors")),
+                             'Genres:', h('ul', mapLinks(genres, "genre")),
+                             'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
+
+    const content = h('div.books', [scrollerContent, filterSection])
+    const { container } = api.app.html.scroller({
+      prepend: [api.book.html.button()],
+      content: content
     })
 
     onceTrue(api.sbot.obs.connection, function(server) {
       const allBooks = Books(server)
 
-      const filterSection = h('section.right',
-                              ['Authors:', h('ul', mapLinks(authors, "authors")),
-                               'Genres:', h('ul', mapLinks(genres, "genre")),
-                               'Your shelves:', h('ul', mapLinks(shelves, "shelve"))])
+      const myId = api.keys.sync.id()
 
-      // FIXME: use hydrated values for this
-
-      /*
       pull(
-        allBooks(),
-        pull.filter(msg => msg.key),
-        pull.drain((msg) => {
-          authors.add(latestValue(msg, 'authors'))
+        allBooks(null, true, false),
+        pull.drain((book) => {
+          //console.log(book)
+          authors.add(book.common.authors)
 
-          let genre = latestValue(msg, 'genre')
+          let genre = book.subjective[myId].genre
           if (genre && !genres().map(g => g.toLowerCase()).includes(genre.toLowerCase()))
             genres.add(genre)
 
-          shelves.add(api.about.obs.valueFrom(msg.key, "shelve", api.keys.sync.id())())
+          let shelve = book.subjective[myId].shelve
+          if (shelve)
+            shelves.add(shelve)
         })
       )
-      */
 
       if (queryKey && queryValue) {
         let lowercaseQueryValue = queryValue.toLowerCase()
 
+        // FIXME: blows up
         pull(
-          allBooks(),
-          pull.filter(msg => msg.key),
-          pull.filter((msg) => {
-            // FIXME: can't do this anymore, not using about
-            let originalValue = msg.value.content[queryKey]
-            let latestAbout = api.about.obs.latestValue(msg.key, queryKey)()
-            let value = (latestAbout || originalValue) ? (latestAbout || originalValue).toLowerCase() : ''
-
+          allBooks(null, true, false),
+          pull.filter((book) => {
+            console.log(book)
+            let value = book.common[queryKey]
+            if (!value)
+              value = book.subjective[myId][queryKey]
+            if (value)
+              value = value.toLowerCase()
             return value == lowercaseQueryValue
           }),
-          Scroller(container, content, api.message.html.render, true, true)
+          Scroller(container, scrollerContent, api.message.html.render, true, true)
         )
 
         container.title = '/books ' + queryKey + ' = ' + queryValue
@@ -119,7 +115,7 @@ exports.create = function (api) {
         console.log("pulling books!")
         pull(
           allBooks(),
-          Scroller(container, content, api.message.html.render, true, true)
+          Scroller(container, scrollerContent, api.message.html.render, true, true)
         )
       }
     })
