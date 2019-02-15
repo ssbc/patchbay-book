@@ -4,14 +4,15 @@ BookShow {
   section.about {
     display: grid
     align-content: start
-    min-height: 5rem
 
     h1 {
       font-size: 2rem
+      margin-top: 1rem
+      margin-bottom: 1rem
     }
 
     div.edit {
-      margin-top: -5rem
+      margin-top: -3.5rem
       margin-right: 1rem
 
       justify-self: end
@@ -38,15 +39,19 @@ BookShow {
   }
 
   div.Authors {
+    a {
+      color: #222
+    }
     font-style: italic
+    margin-bottom: 0.5rem
   }
 
   section.content {
-    column-count: 2
-    
     div.Images img {
+      float: left
       max-width: 300px
       max-height: 300px
+      padding: 0 0.5rem 0.5rem 0
     }
 
     div.Description {
@@ -62,6 +67,10 @@ BookShow {
         }
       }
     }
+  }
+
+  section.clear {
+    clear: left
   }
   
   section.subjective {

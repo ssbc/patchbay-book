@@ -41,19 +41,22 @@ module.exports = function BookShow (opts) {
                }, series),
         when(seriesNo, h('span.seriesNo', seriesNo))
       ]),
-      h('Authors',
+      h('Authors', [
+        'Authors: ',
         h('a', { href: '#',
                  'ev-click': () => goTo({
                    page: 'books',
                    query: 'authors=' + authors()
                  })
-               }, authors)),
+               }, authors)
+      ]),
       h('section.content', [
         h('Images',
           h('img', { src })),
         h('Description',
           markdown(description))
       ]),
+      h('section.clear')
       //h('footer.backlinks', {}, api.message.html.backlinks(msg)),
       /*
       h('section.subjective', [
