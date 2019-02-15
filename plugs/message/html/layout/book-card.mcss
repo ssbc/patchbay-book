@@ -1,5 +1,6 @@
 Message -book-card {
   padding: 1rem .5rem
+  cursor: pointer
 
   display: grid
   grid-template-columns: 5rem auto
@@ -8,8 +9,6 @@ Message -book-card {
   section.avatar {
     grid-column: 1 / 2
     grid-row: 1 / span 4
-    a img {
-    }
   }
 
   section.top {

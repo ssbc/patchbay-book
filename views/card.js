@@ -47,7 +47,7 @@ module.exports = function bookCard (opts) {
                    }, authors)),
           // ratings
           h('Description', [
-            computed(description, (d) => d ? markdown(d.length > 250 ? d.substring(0, 250) + '...' : d) : '')
+            computed(description, (d) => d ? markdown(d.length > 450 ? d.substring(0, 450) + '...' : d) : '')
           ])
         ])
       ])

@@ -13,9 +13,12 @@ BookCard {
 
     display: flex
 
-    div.Images img {
-      max-width: 200px
-      max-height: 200px
+    div.Images {
+      img {
+        min-width: 133px
+        max-width: 200px
+        max-height: 200px
+      }
     }
 
     div {
@@ -23,6 +26,8 @@ BookCard {
 
       h2 {
         font-size: 1.8rem
+        margin-top: 0rem
+        margin-bottom: 0.2rem
       }
 
       div.Series {
@@ -43,6 +48,9 @@ BookCard {
       }
 
       div.Authors {
+        a {
+          color: #222
+        }
         font-style: italic
       }
     }
