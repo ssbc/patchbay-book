@@ -66,8 +66,6 @@ module.exports = function BookForm (opts) {
   ])
 
   function imageInput () {
-    // NOTE - clear state.image if person makes gathering private **after** attaching public-flavoured blob
-
     return h('input', {
       type: 'file',
       accept: 'image/*',
@@ -76,9 +74,8 @@ module.exports = function BookForm (opts) {
 
     function handleFiles (ev) {
       const files = ev.target.files
-      const isPrivate = resolve(state.recps).length > 0
 
-      scuttleBlob.async.files(files, { stripExif: true, isPrivate }, (err, result) => {
+      scuttleBlob.async.files(files, { stripExif: true }, (err, result) => {
         ev.target.value = ''
         if (err) {
           console.error(err)

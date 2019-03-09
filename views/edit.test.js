@@ -15,21 +15,14 @@ const view = View({
       console.log('updating!', key, opts)
       cb(null, opts)
     },
-    get: (key, cb) => {
-      if (request === 1) {
-        cb(null, {
-          key: '%someKey',
+    get: (key, loadComments, cb) => {
+      cb(null, {
+        key: '%someKey',
+        common: {
           title: 'The dispossesed',
           authors: 'Ursula Le Guin'
-        })
-        request++
-      } else {
-        cb(null, {
-          key: '%someKey',
-          title: 'The dispossesed',
-          authors: 'Ursula Le Guin'
-        })
-      }
+        }
+      })
     }
   },
   // afterPublish = console.log,

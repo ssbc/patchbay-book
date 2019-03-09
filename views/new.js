@@ -25,18 +25,16 @@ module.exports = function BookNew (opts) {
   })
 
   function publish () {
-    const { title, description, location, image, day, time, progenitor, mentions, recps } = resolve(state)
+    const { title, description, authors, series, seriesNo, images } = resolve(state)
 
-    // ??
-    if (description) opts.description = description
-    if (location) opts.location = location
-    if (image) opts.image = image
-    if (progenitor) opts.progenitor = progenitor
+    const bookMsg = {
+      type: 'bookclub',
+      title, description, authors, series, seriesNo, images
+    }
 
-    scuttle.post(opts, (err, data) => {
+    scuttle.post(bookMsg, (err, data) => {
       if (err) return console.error(err)
 
-      state.set(emptyState())
       afterPublish(data)
     })
   }

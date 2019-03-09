@@ -18,7 +18,7 @@ module.exports = function BookEdit (opts) {
     next: initialiseState()
   }
   fetchCurrentState()
-  
+
   return Form({
     state: state.next,
     onCancel,
@@ -32,8 +32,8 @@ module.exports = function BookEdit (opts) {
     scuttle.get(book, false, (err, _state) => {
       if (err) return console.error(err)
 
-      state.current.set(buildState(_state))
-      state.next.set(buildState(_state))
+      state.current.set(buildState(_state.common))
+      state.next.set(buildState(_state.common))
     })
   }
 
@@ -41,13 +41,13 @@ module.exports = function BookEdit (opts) {
     const n = resolve(state.next)
     const c = resolve(state.current)
 
-    // FIXME: maybe look if there were any changes
+    if (!isEqual(c, n)) {
+      scuttle.put(book, n, (err, data) => {
+        if (err) return console.error(err)
 
-    scuttle.put(book, n, (err, data) => {
-      if (err) return console.error(err)
-
-      fetchCurrentState()
-      afterPublish(data)
-    })
+        afterPublish(data)
+      })
+    } else
+      afterPublish()
   }
 }
