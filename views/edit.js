@@ -31,7 +31,7 @@ module.exports = function BookEdit (opts) {
   function fetchCurrentState () {
     scuttle.get(book, false, (err, _state) => {
       if (err) return console.error(err)
-      
+
       state.current.set(buildState(_state))
       state.next.set(buildState(_state))
     })

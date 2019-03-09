@@ -1,4 +1,11 @@
 BookForm {
+  --gradient: linear-gradient(45deg, hsla(0, 100%, 56%, .5), hsla(220, 100%, 46%, 0.3))
+  --texture: left top 0 / 3px radial-gradient(white, #de82e6) repeat
+  background: var(--texture), var(--gradient)
+  background-blend-mode: darken
+
+  padding: 3rem 2rem
+
   --br: 5px
   --boundary: 1rem
   --feature-color: hsla(295, 67%, 60%, 1)

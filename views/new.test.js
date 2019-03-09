@@ -13,10 +13,7 @@ const view = View({
       cb(null, opts)
     }
   },
-  initialState: {
-    title: 'The dispossesed',
-    authors: 'Ursula Le Guin'
-  }
+  initialState: {}
 })
 
 document.body.appendChild(view)
