@@ -28,6 +28,11 @@ module.exports = function BookForm (opts) {
         'ev-input': ev => state.authors.set(ev.target.value),
         value: state.authors
       }),
+      h('label.genres', 'Genres'),
+      h('input.genres', {
+        'ev-input': ev => state.genres.set(ev.target.value),
+        value: state.genres
+      }),
       h('label.series', 'Series'),
       h('div.series', [
         h('input', {
@@ -41,6 +46,11 @@ module.exports = function BookForm (opts) {
           placeholder: 'No (optional)'
         })
       ]),
+      h('label.pages', 'Pages'),
+      h('input.pages', {
+        'ev-input': ev => state.pages.set(ev.target.value),
+        value: state.pages
+      }),
       h('label', 'Image'),
       h('div.image-input', [
         imageInput(),

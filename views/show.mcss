@@ -43,6 +43,9 @@ BookShow {
       color: #222
     }
     font-style: italic
+  }
+
+  div.Pages {
     margin-bottom: 0.5rem
   }
 

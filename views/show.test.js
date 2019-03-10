@@ -20,7 +20,9 @@ const view = View({
             size: 91351,
             type: "image/jpeg"
           },
-          title: "The Hardware Hacker"
+          title: "The Hardware Hacker",
+          genres: "",
+          pages: ""
         },
         subjective: {
           '@6CAxOI3f+LUOVrbAl0IemqiS7ATpQvr9Mdw9LC4+Uv0=.ed25519': {

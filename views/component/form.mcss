@@ -65,7 +65,7 @@ BookForm {
     }
 
     textarea {
-      min-height: 3rem
+      min-height: 10rem
     }
 
     div.image-input {

@@ -21,7 +21,7 @@ module.exports = function BookShow (opts) {
   return h('BookShow', computed(state, state => {
     if (!state) return h('div.loading', 'Loading...')
 
-    const { title, description, authors, image, series, seriesNo } = state.common
+    const { title, description, authors, image, series, seriesNo, genres, pages } = state.common
 
     let src = ''
     if (image)
@@ -49,6 +49,18 @@ module.exports = function BookShow (opts) {
                    query: 'authors=' + authors()
                  })
                }, authors)
+      ]),
+      h('Genres', [
+        'Genres: ',
+        h('a', { href: '#',
+                 'ev-click': () => goTo({
+                   page: 'books',
+                   query: 'genre=' + genres()
+                 })
+               }, genres)
+      ]),
+      h('Pages', [
+        'Pages: ', pages
       ]),
       h('section.content', [
         h('Images',
