@@ -26,6 +26,7 @@ exports.create = (api) => {
     const { action, timestamp } = api.message.html
     const card = Card({
       book: msg,
+      hydratedBook: opts.hydratedBook,
       scuttle: Scuttle(api.sbot.obs.connection),
       blobUrl: api.blob.sync.url,
       markdown: api.message.html.markdown,

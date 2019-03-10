@@ -3,6 +3,7 @@ const { h, Value, computed, when } = require('mutant')
 module.exports = function bookCard (opts) {
   const {
     book,
+    hydratedBook,
     scuttle,
     blobUrl = () => '',
     markdown,
@@ -10,9 +11,12 @@ module.exports = function bookCard (opts) {
   } = opts
 
   const state = Value()
-  scuttle.get(book.key, false, (err, data) => {
-    state.set(data)
-  })
+  if (hydratedBook)
+    state.set(hydratedBook)
+  else
+    scuttle.get(book.key, false, (err, data) => {
+      state.set(data)
+    })
 
   return h('BookCard', computed(state, state => {
     if (!state) return 'Loading...' // TODO - make nicer

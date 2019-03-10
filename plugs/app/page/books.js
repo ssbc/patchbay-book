@@ -15,7 +15,8 @@ exports.needs = nest({
   'app.html.scroller': 'first',
   'keys.sync.id': 'first',
   'message.html.render': 'first',
-  'book.html.button': 'first' // create new
+  'book.html.button': 'first', // create new
+  'message.html.layout': 'first'
 })
 
 exports.create = function (api) {
@@ -96,6 +97,12 @@ exports.create = function (api) {
 
       const myId = api.keys.sync.id()
 
+      let books = []
+
+      function render(book) {
+        return api.message.html.layout(book.msg, { layout: 'card', hydratedBook: book })
+      }
+
       pull(
         allBooks(null, true, false),
         pull.drain((book) => {
@@ -109,37 +116,27 @@ exports.create = function (api) {
           let shelve = book.subjective[myId].shelve
           if (shelve)
             shelves.add(shelve)
-        })
-      )
 
-      if (queryKey && queryValue) {
-        let lowercaseQueryValue = queryValue.toLowerCase()
+          if (queryKey && queryValue) {
+            let lowercaseQueryValue = queryValue.toLowerCase()
 
-        // FIXME: blows up
-        pull(
-          allBooks(null, true, false),
-          pull.filter((book) => {
-            console.log(book)
             let value = book.common[queryKey]
             if (!value)
               value = book.subjective[myId][queryKey]
             if (value)
               value = value.toLowerCase()
-            return value == lowercaseQueryValue
-          }),
-          Scroller(container, scrollerContent, api.message.html.render, true, true)
-        )
-
-        container.title = '/books ' + queryKey + ' = ' + queryValue
-      }
-      else
-      {
-        console.log("pulling books!")
-        pull(
-          allBooks(),
-          Scroller(container, scrollerContent, api.message.html.render, true, true)
-        )
-      }
+            if (value == lowercaseQueryValue)
+              books.push(book)
+          } else
+            books.push(book)
+        }, () => {
+          console.log("pulling books!")
+          pull(
+            pull.values(books),
+            Scroller(container, scrollerContent, render, true, true)
+          )
+        })
+      )
     })
 
     container.title = '/books'
