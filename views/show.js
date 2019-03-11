@@ -1,11 +1,13 @@
-const { h, Value, computed, when } = require('mutant')
+const { h, Value, computed, when, map, resolve } = require('mutant')
 
 module.exports = function BookShow (opts) {
   const {
+    myKey,
     book,
     scuttle,
-    avatar = i => h('div', i),
     blobUrl = i => i,
+    avatar = i => h('div', i),
+    name = i => h('div', i),
     markdown = i => i,
     goTo,
     editBtn
@@ -17,6 +19,29 @@ module.exports = function BookShow (opts) {
   scuttle.get(book.key, false, (err, data) => {
     state.set(data)
   })
+
+  function renderSubjective(user, subjective) {
+    let ratingLine = resolve(name(user)) + ' rated ' + subjective.rating
+    if (subjective.ratingMax)
+      ratingLine += ' / ' + subjective.ratingMax
+    ratingLine += subjective.ratingType
+
+    return [
+      h('section.top',
+        [avatar(user),
+         h('div', computed(ratingLine, markdown)),
+         h('div', ['Shelve: ', subjective.shelve]),
+         h('div', ['Review: ', computed(subjective.review, markdown)])
+        ]),
+      h('section.comments', [
+        map(subjective.comments, com => {
+          return h('div',
+                   [h('section.avatar', avatar(com.author)),
+                    h('section.content', computed(com.content.text, markdown))])
+        })
+      ])
+    ]
+  }
 
   return h('BookShow', computed(state, state => {
     if (!state) return h('div.loading', 'Loading...')
@@ -68,21 +93,16 @@ module.exports = function BookShow (opts) {
         h('Description',
           markdown(description))
       ]),
-      h('section.clear')
-      //h('footer.backlinks', {}, api.message.html.backlinks(msg)),
-      /*
+      h('section.clear'),
       h('section.subjective', [
-        computed(obs.subjective, subjectives => {
-          let i = 0;
+        computed(state.subjective, subjectives => {
+          let reviews = []
           Object.keys(subjectives).forEach(user => {
-            if (i++ < reviews.length) return
-            reviews.push(handleSubjective(user, i, obs))
+            reviews.push(renderSubjective(user, subjectives[user]))
           })
-
           return reviews
         })
       ])
-      */
     ]
   }))
 }

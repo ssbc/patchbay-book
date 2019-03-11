@@ -12,6 +12,7 @@ exports.needs = nest({
   'app.sync.goTo': 'first',
   'app.html.modal': 'first',
   'about.html.avatar': 'first',
+  'about.obs.name': 'first',
   'about.pull.updates': 'first',
   'message.html.backlinks': 'first',
   'message.html.markdown': 'first',
@@ -49,9 +50,11 @@ exports.create = (api) => {
       book: msg,
       scuttle: Scuttle(api.sbot.obs.connection),
       blobUrl: api.blob.sync.url,
-      markdown: api.message.html.markdown,
       avatar: api.about.html.avatar,
-      editBtn
+      name: api.about.obs.name,
+      markdown: api.message.html.markdown,
+      editBtn,
+      goTo: api.app.sync.goTo
     })
 
     return h('Message -book-show', [
