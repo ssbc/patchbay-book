@@ -27,12 +27,15 @@ module.exports = function BookShow (opts) {
     ratingLine += subjective.ratingType
 
     return [
-      h('section.top',
-        [avatar(user),
-         h('div', computed(ratingLine, markdown)),
-         h('div', ['Shelve: ', subjective.shelve]),
-         h('div', ['Review: ', computed(subjective.review, markdown)])
-        ]),
+      h('section.left',
+        [avatar(user)]),
+      h('section.body', [
+        h('div', computed(ratingLine, markdown)),
+        when(subjective.shelve,
+             h('div', ['Shelve: ', subjective.shelve])),
+        when(subjective.review,
+             h('div', ['Review: ', computed(subjective.review, markdown)]))
+      ]),
       h('section.comments', [
         map(subjective.comments, com => {
           return h('div',
