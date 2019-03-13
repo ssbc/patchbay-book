@@ -23,7 +23,7 @@
     "pull-scroll": "^1.0.9",
     "read-directory": "^3.0.1",
     "scuttle-blob": "^1.0.2",
-    "scuttle-book": "^1.0.3",
+    "scuttle-book": "^1.0.6",
     "ssb-book-schema": "^1.0.1",
     "suggest-box": "^2.2.3"
   }

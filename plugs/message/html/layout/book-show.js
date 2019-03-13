@@ -53,6 +53,7 @@ exports.create = (api) => {
       avatar: api.about.html.avatar,
       name: api.about.obs.name,
       markdown: api.message.html.markdown,
+      timestamp: api.message.html.timestamp,
       editBtn,
       goTo: api.app.sync.goTo
     })

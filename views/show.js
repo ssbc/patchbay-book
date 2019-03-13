@@ -9,6 +9,7 @@ module.exports = function BookShow (opts) {
     avatar = i => h('div', i),
     name = i => h('div', i),
     markdown = i => i,
+    timestamp = i => i,
     goTo,
     editBtn
   } = opts
@@ -26,9 +27,13 @@ module.exports = function BookShow (opts) {
       ratingLine += ' / ' + subjective.ratingMax
     ratingLine += subjective.ratingType
 
+    // patchcore expect a normal message
+    subjective.value = { timestamp: subjective.timestamp }
+
     return [
       h('section.left',
-        [avatar(user)]),
+        [avatar(user),
+         h('div.timestamp', timestamp(subjective))]),
       h('section.body', [
         h('div', computed(ratingLine, markdown)),
         when(subjective.shelve,

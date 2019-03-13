@@ -87,6 +87,10 @@ BookShow {
       display: grid
       grid-column: 1
       justify-items: end
+
+      div.timestamp {
+        padding-top: 5px
+      }
     }
 
     section.body {
