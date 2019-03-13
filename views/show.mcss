@@ -101,6 +101,7 @@ BookShow {
 
     section.comments {
       grid-column-start: span 2
+      padding-left: 120px
 
       span {
         textarea {
@@ -116,33 +117,39 @@ BookShow {
         margin-left: 3rem
       }
 
-      div {
-        position: relative
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        justify-content: flex-end
+      div.header {
+        font-size: 0.8rem
+        font-weight: bold
+      }
 
-        section.avatar {
-          position: absolute
-          left: 0.5rem
+      div {
+        display: grid
+        grid-template-columns: 4.5rem 1fr minmax(6rem, auto)
+        grid-gap: 1rem
+        padding-bottom: 10px
+
+        section.left {
+          display: grid
+          grid-column: 1
+          justify-items: end
+          font-weight: 600
+
           img.Avatar {
             width: 2rem;
             height: 2rem;
             margin-right: 0.5rem
           }
-        }
 
-        section.authorTime {
-          font-size: 0.8rem
-          flex-basis: 93%
           a.Timestamp {
+            font-size: 0.8rem
             margin-left: 0.3rem
           }
         }
 
         section.content {
-          flex-basis: 93%
+          display: grid
+          grid-column: 2
+          justify-items: start
 
           img.emoji {
             height: 1.2em;

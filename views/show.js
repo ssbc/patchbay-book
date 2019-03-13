@@ -17,7 +17,7 @@ module.exports = function BookShow (opts) {
   const state = Value()
   const isPublishing = Value(false)
 
-  scuttle.get(book.key, false, (err, data) => {
+  scuttle.get(book.key, true, (err, data) => {
     state.set(data)
   })
 
@@ -42,9 +42,11 @@ module.exports = function BookShow (opts) {
              h('div', ['Review: ', computed(subjective.review, markdown)]))
       ]),
       h('section.comments', [
+        when(subjective.comments.length, h('div.header', 'Comments:')),
         map(subjective.comments, com => {
+          com.value = { timestamp: com.timestamp }
           return h('div',
-                   [h('section.avatar', avatar(com.author)),
+                   [h('section.left', [avatar(com.author), name(com.author), timestamp(com)]),
                     h('section.content', computed(com.content.text, markdown))])
         })
       ])
