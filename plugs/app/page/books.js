@@ -103,19 +103,27 @@ exports.create = function (api) {
         return api.message.html.layout(book.msg, { layout: 'card', hydratedBook: book })
       }
 
+      // faster doing UI update once
+      let bookAuthors = Set()
+      let lcBookGenres = Set()
+      let bookGenres = Set()
+      let bookShelves = Set()
+
       pull(
         allBooks(null, true, false),
         pull.drain((book) => {
           //console.log(book)
-          authors.add(book.common.authors)
+          bookAuthors.add(book.common.authors)
 
-          let genre = book.subjective[myId].genre
-          if (genre && !genres().map(g => g.toLowerCase()).includes(genre.toLowerCase()))
-            genres.add(genre)
+          const genre = book.subjective[myId].genre
+          if (genre && !lcBookGenres.has(genre.toLowerCase())) {
+            bookGenres.add(genre)
+            lcBookGenres.add(genre.toLowerCase())
+          }
 
-          let shelve = book.subjective[myId].shelve
+          const shelve = book.subjective[myId].shelve
           if (shelve)
-            shelves.add(shelve)
+            bookShelves.add(shelve)
 
           if (queryKey && queryValue) {
             let lowercaseQueryValue = queryValue.toLowerCase()
@@ -130,7 +138,11 @@ exports.create = function (api) {
           } else
             books.push(book)
         }, () => {
-          console.log("pulling books!")
+
+          authors.set(bookAuthors())
+          genres.set(bookGenres())
+          shelves.set(bookShelves())
+
           pull(
             pull.values(books),
             Scroller(container, scrollerContent, render, true, true)
