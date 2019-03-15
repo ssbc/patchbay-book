@@ -49,11 +49,8 @@ exports.create = function (api) {
     const { queryKey, queryValue } = location
 
     const authors = Set()
-    authors.add("")
     const genres = Set()
-    genres.add("")
     const shelves = Set()
-    shelves.add("")
 
     const scrollerContent = h('section.content')
     const filterSection = h('section.filters',
@@ -105,9 +102,12 @@ exports.create = function (api) {
 
       // faster doing UI update once
       let bookAuthors = Set()
+      bookAuthors.add("")
       let lcBookGenres = Set()
       let bookGenres = Set()
+      bookGenres.add("")
       let bookShelves = Set()
+      bookShelves.add("")
 
       pull(
         allBooks(null, true, false),
