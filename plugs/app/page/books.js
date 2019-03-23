@@ -115,11 +115,18 @@ exports.create = function (api) {
           //console.log(book)
           bookAuthors.add(book.common.authors)
 
-          const genre = book.subjective[myId].genre
-          if (genre && !lcBookGenres.has(genre.toLowerCase())) {
-            bookGenres.add(genre)
-            lcBookGenres.add(genre.toLowerCase())
+          function addNewGenre(genre) {
+            if (genre && !lcBookGenres.has(genre.toLowerCase())) {
+              bookGenres.add(genre)
+              lcBookGenres.add(genre.toLowerCase())
+            }
           }
+
+          const genres = book.common.genres
+          if (Array.isArray(genres))
+            genres.forEach(addNewGenre)
+          else
+            addNewGenre(genres)
 
           const shelve = book.subjective[myId].shelve
           if (shelve)

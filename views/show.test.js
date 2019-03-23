@@ -27,7 +27,6 @@ const view = View({
         subjective: {
           '@6CAxOI3f+LUOVrbAl0IemqiS7ATpQvr9Mdw9LC4+Uv0=.ed25519': {
             comments: [],
-            genre: "",
             rating: "5",
             ratingMax: undefined,
             ratingType: ":space_invader:",
