@@ -22,10 +22,15 @@ module.exports = function BookShow (opts) {
   })
 
   function renderSubjective(user, subjective) {
-    let ratingLine = resolve(name(user)) + ' rated ' + subjective.rating
-    if (subjective.ratingMax)
-      ratingLine += ' / ' + subjective.ratingMax
-    ratingLine += subjective.ratingType
+    if (!subjective["key"]) return
+
+    let ratingLine = ''
+    if (subjective.rating) {
+      ratingLine = resolve(name(user)) + ' rated ' + subjective.rating
+      if (subjective.ratingMax)
+        ratingLine += ' / ' + subjective.ratingMax
+      ratingLine += subjective.ratingType
+    }
 
     // patchcore expect a normal message
     subjective.value = { timestamp: subjective.timestamp }
