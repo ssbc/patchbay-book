@@ -21,7 +21,7 @@ const view = View({
             type: "image/jpeg"
           },
           title: "The Hardware Hacker",
-          genres: "",
+          genres: "hardware",
           pages: ""
         },
         subjective: {

@@ -62,37 +62,41 @@ module.exports = function BookShow (opts) {
     if (image)
       src = blobUrl(image.link)
 
+    function showGenre(genre) {
+      return h('a', {
+        href: '#', 'ev-click': () => goTo({ page: 'books', query: 'genre=' + genre })
+      }, genre)
+    }
+
+    function showGenres(genres) {
+      console.log("genres", genres)
+      if (Array.isArray(genres)) {
+        return genres.map(function(genre) {
+          return showGenre(genre)
+        })
+      } else
+        return showGenre(genres)
+    }
+
     return [
       h('section.about', [
         h('h1', title),
         editBtn ? h('div.edit', editBtn) : null
       ]),
       h('Series', [
-        h('a', { 'href': '#',
-                 'ev-click': () => goTo({
-                   page: 'books',
-                   query: 'series=' + series()
-                 })
-               }, series),
+        h('a', {
+          'href': '#', 'ev-click': () => goTo({ page: 'books', query: 'series=' + series })
+        }, series),
         when(seriesNo, h('span.seriesNo', seriesNo))
       ]),
       h('Authors', [
         'Authors: ',
-        h('a', { href: '#',
-                 'ev-click': () => goTo({
-                   page: 'books',
-                   query: 'authors=' + authors()
-                 })
-               }, authors)
+        h('a', {
+          href: '#', 'ev-click': () => goTo({ page: 'books', query: 'authors=' + authors })
+        }, authors)
       ]),
       h('Genres', [
-        'Genres: ',
-        h('a', { href: '#',
-                 'ev-click': () => goTo({
-                   page: 'books',
-                   query: 'genre=' + genres()
-                 })
-               }, genres)
+        'Genres: ', showGenres(genres)
       ]),
       h('Pages', [
         'Pages: ', pages

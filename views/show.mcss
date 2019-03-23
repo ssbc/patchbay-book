@@ -45,6 +45,12 @@ BookShow {
     font-style: italic
   }
 
+  div.Genres {
+    a {
+      padding-right: 10px
+    }
+  }
+
   div.Pages {
     margin-bottom: 0.5rem
   }
