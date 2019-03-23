@@ -69,7 +69,6 @@ module.exports = function BookShow (opts) {
     }
 
     function showGenres(genres) {
-      console.log("genres", genres)
       if (Array.isArray(genres)) {
         return genres.map(function(genre) {
           return showGenre(genre)
