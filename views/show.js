@@ -1,4 +1,5 @@
 const { h, Value, computed, when, map, resolve } = require('mutant')
+const Edit = require('./edit-review')
 
 module.exports = function BookShow (opts) {
   const {
@@ -10,6 +11,7 @@ module.exports = function BookShow (opts) {
     name = i => h('div', i),
     markdown = i => i,
     timestamp = i => i,
+    modal = i => i,
     goTo,
     editBtn
   } = opts
@@ -22,7 +24,32 @@ module.exports = function BookShow (opts) {
   })
 
   function renderSubjective(user, subjective) {
-    if (!subjective["key"]) return
+    // review modal
+    const isOpen = Value(false)
+    const form = Edit({
+      bookKey: book.key,
+      review: subjective,
+      scuttle,
+      onCancel: () => isOpen.set(false),
+      afterPublish: (msg) => {
+        isOpen.set(false)
+      }
+    })
+
+    const ratingModal = modal(form, { isOpen })
+
+    if (!subjective["key"]) {
+      return [
+        ratingModal,
+        h('section.left',
+          avatar(user)),
+        h('section.body', h('section.addRating', {
+          'ev-click': () => isOpen.set(true) }, [
+            h('label', 'Add rating'),
+            h('i.fa.fa-star')
+        ]))
+      ]
+    }
 
     let ratingLine = ''
     if (subjective.rating) {
@@ -46,6 +73,10 @@ module.exports = function BookShow (opts) {
         when(subjective.review,
              h('div', ['Review: ', computed(subjective.review, markdown)]))
       ]),
+      h('section.right', when(user == myKey, [
+        ratingModal,
+        h('i.fa.fa-pencil', { 'ev-click': () => isOpen.set(true) })
+      ])),
       h('section.comments', [
         when(subjective.comments.length, h('div.header', 'Comments:')),
         map(subjective.comments, com => {

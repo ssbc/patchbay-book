@@ -89,6 +89,28 @@ BookShow {
     grid-template-columns: 6rem 1fr minmax(6rem, auto)
     grid-gap: 1.5rem
 
+    section.right {
+      label {
+        padding-right: 0.5rem
+        font-size: 0.8rem
+        color: #999
+      }
+
+      i {
+        color: #999
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        border-radius: 4px
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+      }
+    }
+
     section.left {
       display: grid
       grid-column: 1
@@ -103,6 +125,29 @@ BookShow {
       display: grid
       grid-column: 2
       justify-items: start
+
+      section.addRating {
+        label {
+          padding-right: 0.5rem
+        }
+
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        height: 1.15rem
+        text-transform: uppercase
+        font-size: 0.8rem
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+
+        i {
+          color: #999
+        }
+      }
     }
 
     section.comments {

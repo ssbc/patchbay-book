@@ -54,6 +54,7 @@ exports.create = (api) => {
       name: api.about.obs.name,
       markdown: api.message.html.markdown,
       timestamp: api.message.html.timestamp,
+      modal: api.app.html.modal,
       editBtn,
       goTo: api.app.sync.goTo
     })
