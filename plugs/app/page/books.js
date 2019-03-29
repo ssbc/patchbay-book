@@ -16,7 +16,8 @@ exports.needs = nest({
   'keys.sync.id': 'first',
   'message.html.render': 'first',
   'book.html.button': 'first', // create new
-  'message.html.layout': 'first'
+  'message.html.layout': 'first',
+  'about.obs.name': 'first'
 })
 
 exports.create = function (api) {
@@ -51,37 +52,42 @@ exports.create = function (api) {
     const authors = Set()
     const genres = Set()
     const shelves = Set()
+    const readers = Set()
 
     const scrollerContent = h('section.content')
-    const filterSection = h('section.filters',
-                            [h('span.authors', ['Authors:', h('select', {
-                              'ev-change': (ev) => {
-                                api.app.sync.goTo({
-                                  page: 'books',
-                                  queryKey: "authors",
-                                  queryValue: ev.target.selectedOptions[0].value
-                                })
-                              }
-                            }, mapLinks(authors))]),
-                             h('span.genres', ['Genres:', h('select', {
-                               'ev-change': (ev) => {
-                                 api.app.sync.goTo({
-                                   page: 'books',
-                                   queryKey: "genre",
-                                   queryValue: ev.target.selectedOptions[0].value
-                                })
-                               }
-                             }, mapLinks(genres))]),
-                             h('span.shelves', ['Your shelves:', h('select', {
-                               'ev-change': (ev) => {
-                                 api.app.sync.goTo({
-                                   page: 'books',
-                                   queryKey: "shelve",
-                                   queryValue: ev.target.selectedOptions[0].value
-                                })
-                               }
-                             }, mapLinks(shelves))])
-                            ])
+    const filterSection = h('section.filters', [h('span.authors', ['Authors:', h('select', {
+      'ev-change': (ev) => {
+        api.app.sync.goTo({
+          page: 'books',
+          queryKey: "authors",
+          queryValue: ev.target.selectedOptions[0].value
+        })
+      }
+    }, mapLinks(authors))]), h('span.genres', ['Genres:', h('select', {
+      'ev-change': (ev) => {
+        api.app.sync.goTo({
+          page: 'books',
+          queryKey: "genre",
+          queryValue: ev.target.selectedOptions[0].value
+        })
+      }
+    }, mapLinks(genres))]), h('span.shelves', ['Your shelves:', h('select', {
+      'ev-change': (ev) => {
+        api.app.sync.goTo({
+          page: 'books',
+          queryKey: "shelve",
+          queryValue: ev.target.selectedOptions[0].value
+        })
+      }
+    }, mapLinks(shelves))]), h('span.readers', ['Readers:', h('select', {
+      'ev-change': (ev) => {
+        api.app.sync.goTo({
+          page: 'books',
+          queryKey: "reader",
+          queryValue: ev.target.selectedOptions[0].value
+        })
+      }
+    }, map(computed([readers], (list) => list.sort()), r => h('option', { value: r }, r ? api.about.obs.name(r) : '')) )]) ])
 
     const content = h('div.books', [scrollerContent])
     const { container } = api.app.html.scroller({
@@ -108,6 +114,8 @@ exports.create = function (api) {
       bookGenres.add("")
       let bookShelves = Set()
       bookShelves.add("")
+      let bookReaders = Set()
+      bookReaders.add("")
 
       pull(
         allBooks(null, true, false),
@@ -132,7 +140,16 @@ exports.create = function (api) {
           if (shelve)
             bookShelves.add(shelve)
 
+          book.readers.map(reader => bookReaders.add(reader))
+
           if (queryKey && queryValue) {
+            if (queryKey == "reader") {
+              if (book.readers.indexOf(queryValue) != -1)
+                books.push(book)
+
+              return
+            }
+
             let lowercaseQueryValue = queryValue.toLowerCase()
 
             let value = book.common[queryKey]
@@ -149,6 +166,7 @@ exports.create = function (api) {
           authors.set(bookAuthors())
           genres.set(bookGenres())
           shelves.set(bookShelves())
+          readers.set(bookReaders())
 
           pull(
             pull.values(books),

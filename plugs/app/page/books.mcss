@@ -11,6 +11,10 @@ section.filters {
     margin-left: 10px
   }
 
+  span.readers {
+    margin-left: 10px
+  }
+
   span select {
     margin-left: 5px
   }
