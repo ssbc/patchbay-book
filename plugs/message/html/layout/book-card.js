@@ -29,6 +29,7 @@ exports.create = (api) => {
       hydratedBook: opts.hydratedBook,
       scuttle: Scuttle(api.sbot.obs.connection),
       blobUrl: api.blob.sync.url,
+      avatar: api.about.html.avatar,
       markdown: api.message.html.markdown,
       goTo: api.app.sync.goTo
     })

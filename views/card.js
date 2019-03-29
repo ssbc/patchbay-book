@@ -1,4 +1,4 @@
-const { h, Value, computed, when } = require('mutant')
+const { h, Value, computed, when, map } = require('mutant')
 
 module.exports = function bookCard (opts) {
   const {
@@ -6,6 +6,7 @@ module.exports = function bookCard (opts) {
     hydratedBook,
     scuttle,
     blobUrl = () => '',
+    avatar = i => h('div', i),
     markdown,
     goTo
   } = opts
@@ -34,31 +35,24 @@ module.exports = function bookCard (opts) {
         h('div', [
           h('h2', title),
           h('Series', [
-            h('a', { 'href': '#',
-                     'ev-click': () => {
-                       goTo({
-                         page: 'books',
-                         query: 'series=' + series
-                       })
-                     }
-                   }, series),
+            h('a', { 'href': '#', 'ev-click': () => {
+              goTo({ page: 'books', query: 'series=' + series })
+            } }, series),
             when(seriesNo, h('span.seriesNo', seriesNo))
           ]),
           h('Authors',
-            h('a', { href: '#',
-                     'ev-click': (e) => {
-                       goTo({
-                         page: 'books',
-                         query: 'authors=' + authors
-                       })
-                     }
-                   }, authors)),
-          // ratings
+            h('a', { href: '#', 'ev-click': (e) => {
+              goTo({ page: 'books', query: 'authors=' + authors })
+            } }, authors)),
           h('Description', [
             computed(description, (d) => d ? markdown(d.length > 450 ? d.substring(0, 450) + '...' : d) : '')
           ])
+        ]),
+        h('div.readers', [
+          "Readers",
+          h('div', map(state.readers, reader => avatar(reader)))
         ])
-      ])
+      ]),
     ]
   }))
 }

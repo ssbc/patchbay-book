@@ -8,10 +8,10 @@ BookCard {
   :hover { text-decoration: none }
 
   div.details {
+    display: flex
+
     border: 1px gainsboro solid
     padding: .5rem
-
-    display: flex
 
     div.Images {
       img {
@@ -52,6 +52,22 @@ BookCard {
           color: #222
         }
         font-style: italic
+      }
+    }
+
+    div.readers {
+      font-weight: bold
+      font-size: 0.75rem
+      width: 75px
+      padding-bottom: 5px
+
+      div {
+        a {
+          img {
+            width: 3rem
+            height: 3rem
+          }
+        }
       }
     }
   }
