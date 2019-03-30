@@ -20,13 +20,6 @@ ReviewForm {
   grid-column-gap: 1rem
   grid-row-gap: 0
 
-  h1 {
-    text-transform: uppercase
-    font-size: .8rem
-    letter-spacing: .1rem
-    color: #fff
-  }
-
   div.details {
     border-radius: var(--br)
   
@@ -53,31 +46,24 @@ ReviewForm {
       letter-spacing: 1px
       font-weight: 600
       text-transform: uppercase
+      width: 5rem
     }
 
-    input, div.series > input, div.image-input > input, textarea {
+    div.rating > input {
+       width: 3rem
+    }
+
+    div.rating > input, input, textarea {
       font-family: var(--font)
       background: #fff
       padding: .5rem
       border: none
       outline: none,
-      margin-left: 10px
     }
 
     textarea {
       min-height: 10rem
-    }
-
-    div.image-input {
-      display: grid
-      grid: 8rem / 16rem auto
-      align-items: start
-      grid-gap: 1rem
-
-      img {
-        max-height: 100%
-        max-width: 100%
-      }
+      width: 30rem
     }
   }
 

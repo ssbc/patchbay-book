@@ -15,10 +15,12 @@ module.exports = function ReviewForm (opts) {
           'ev-input': ev => state.rating.set(ev.target.value),
           value: state.rating
         }),
+        h('span', ' / '),
         h('input.ratingMax', {
           'ev-input': ev => state.ratingMax.set(ev.target.value),
           value: state.ratingMax
         }),
+        h('span.type', ' Type '),
         h('input.ratingType', {
           'ev-input': ev => state.ratingType.set(ev.target.value),
           value: state.ratingType
