@@ -183,17 +183,24 @@ BookShow {
           display: grid
           grid-column: 1
           justify-items: end
-          font-weight: 600
+          align-content: start
 
           img.Avatar {
             width: 2rem;
             height: 2rem;
             margin-right: 0.5rem
+            grid-row: 1
+          }
+
+          div.name {
+            font-weight: 600
+            grid-row: 2
           }
 
           a.Timestamp {
             font-size: 0.8rem
             margin-left: 0.3rem
+            grid-row: 3
           }
         }
 

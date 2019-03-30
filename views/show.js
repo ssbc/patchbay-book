@@ -83,7 +83,7 @@ module.exports = function BookShow (opts) {
         map(review.comments, com => {
           com.value = { timestamp: com.timestamp }
           return h('div',
-                   [h('section.left', [avatar(com.author), name(com.author), timestamp(com)]),
+                   [h('section.left', [avatar(com.author), h('div.name', name(com.author)), timestamp(com)]),
                     h('section.content', computed(com.content.text, markdown))])
         })
       ])
