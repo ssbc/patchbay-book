@@ -154,18 +154,18 @@ BookShow {
       grid-column-start: span 2
       padding-left: 120px
 
-      span {
-        textarea {
-          border: 1px solid gainsboro
-          width: 500px
-          height: 200px
-          display: block
-          margin-left: 3rem
-        }
+      /* add comment area */
+      span > textarea {
+        border: 1px solid gainsboro
+        width: 650px
+        height: 200px
+        display: block
+        margin-left: 5.5rem
       }
 
       button {
-        margin-left: 3rem
+        margin-left: 5.5rem
+        margin-bottom: 20px
       }
 
       div.header {

@@ -1,5 +1,6 @@
 const { h, Value, computed, when, map, resolve } = require('mutant')
 const Edit = require('./edit-review')
+const addSuggest = require('suggest-box')
 
 module.exports = function BookShow (opts) {
   const {
@@ -11,6 +12,7 @@ module.exports = function BookShow (opts) {
     name = i => h('div', i),
     markdown = i => i,
     timestamp = i => i,
+    suggester = i => i,
     modal = i => i,
     goTo,
     editBtn
@@ -63,6 +65,20 @@ module.exports = function BookShow (opts) {
     // patchcore expect a normal message
     review.value = { timestamp: review.timestamp }
 
+    function suggestiveTextArea(textArea) {
+      let textAreaWrapper = h('span', textArea)
+
+      addSuggest(textArea, suggester, {cls: 'PatchSuggest'})
+
+      return textAreaWrapper
+    }
+
+    let comment = Value('')
+    let lastCommentId = null
+
+    let textArea = h('textarea', {'ev-input': e => comment.set(e.target.value) })
+    let textAreaWrapper = suggestiveTextArea(textArea)
+
     return [
       h('section.left',
         [avatar(user),
@@ -81,11 +97,22 @@ module.exports = function BookShow (opts) {
       h('section.comments', [
         when(review.comments.length, h('div.header', 'Comments:')),
         map(review.comments, com => {
+          lastCommentId = com.key
           com.value = { timestamp: com.timestamp }
           return h('div',
                    [h('section.left', [avatar(com.author), h('div.name', name(com.author)), timestamp(com)]),
                     h('section.content', computed(com.content.text, markdown))])
-        })
+        }),
+        textAreaWrapper,
+        h('button', { 'ev-click': () =>  {
+          /* FIXME:
+          obs.addCommentToSubjective(review.key,
+                                     lastCommentId || review.key,
+                                     comment(), () => {
+                                        textArea.value = ''
+                                     })
+          */
+        } }, 'Add comment')
       ])
     ]
   }
