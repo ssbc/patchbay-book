@@ -49,6 +49,11 @@ ReviewForm {
       width: 5rem
     }
 
+    div.rating > span > div {
+      display: inline-block
+      margin-left: 7px
+    }
+
     div.rating > input {
        width: 3rem
     }

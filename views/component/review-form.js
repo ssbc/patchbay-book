@@ -3,6 +3,7 @@ const { h, when, computed, resolve } = require('mutant')
 module.exports = function ReviewForm (opts) {
   const {
     state,
+    markdown,
     onCancel,
     publish
   } = opts
@@ -24,7 +25,8 @@ module.exports = function ReviewForm (opts) {
         h('input.ratingType', {
           'ev-input': ev => state.ratingType.set(ev.target.value),
           value: state.ratingType
-        })
+        }),
+        h('span', computed(state.ratingType, markdown))
       ]),
       h('label.shelves', 'Shelves'),
       h('input.shelves', {

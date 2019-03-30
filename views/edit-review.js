@@ -7,6 +7,7 @@ module.exports = function ReviewEdit (opts) {
   const {
     bookKey,
     review,
+    markdown,
     scuttle,
     afterPublish = console.log,
     onCancel = () => {}
@@ -19,6 +20,7 @@ module.exports = function ReviewEdit (opts) {
   
   return Form({
     state: state.next,
+    markdown,
     onCancel,
     publish
   })

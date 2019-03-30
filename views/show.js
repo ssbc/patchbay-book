@@ -30,6 +30,7 @@ module.exports = function BookShow (opts) {
       bookKey: book.key,
       review: subjective,
       scuttle,
+      markdown,
       onCancel: () => isOpen.set(false),
       afterPublish: (msg) => {
         isOpen.set(false)
