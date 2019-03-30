@@ -136,7 +136,7 @@ exports.create = function (api) {
           else
             addNewGenre(genres)
 
-          const shelve = book.subjective[myId].shelve
+          const shelve = book.reviews[myId].shelve
           if (shelve)
             bookShelves.add(shelve)
 
@@ -154,7 +154,7 @@ exports.create = function (api) {
 
             let value = book.common[queryKey]
             if (!value)
-              value = book.subjective[myId][queryKey]
+              value = book.reviews[myId][queryKey]
             if (value)
               value = value.toLowerCase()
             if (value == lowercaseQueryValue)

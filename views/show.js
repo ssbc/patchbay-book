@@ -23,12 +23,12 @@ module.exports = function BookShow (opts) {
     state.set(data)
   })
 
-  function renderSubjective(user, subjective) {
+  function renderReview(user, review) {
     // review modal
     const isOpen = Value(false)
     const form = Edit({
       bookKey: book.key,
-      review: subjective,
+      review,
       scuttle,
       markdown,
       onCancel: () => isOpen.set(false),
@@ -39,7 +39,7 @@ module.exports = function BookShow (opts) {
 
     const ratingModal = modal(form, { isOpen })
 
-    if (!subjective["key"]) {
+    if (!review["key"]) {
       return [
         ratingModal,
         h('section.left',
@@ -53,34 +53,34 @@ module.exports = function BookShow (opts) {
     }
 
     let ratingLine = ''
-    if (subjective.rating) {
-      ratingLine = resolve(name(user)) + ' rated ' + subjective.rating
-      if (subjective.ratingMax)
-        ratingLine += ' / ' + subjective.ratingMax
-      ratingLine += subjective.ratingType
+    if (review.rating) {
+      ratingLine = resolve(name(user)) + ' rated ' + review.rating
+      if (review.ratingMax)
+        ratingLine += ' / ' + review.ratingMax
+      ratingLine += review.ratingType
     }
 
     // patchcore expect a normal message
-    subjective.value = { timestamp: subjective.timestamp }
+    review.value = { timestamp: review.timestamp }
 
     return [
       h('section.left',
         [avatar(user),
-         h('div.timestamp', timestamp(subjective))]),
+         h('div.timestamp', timestamp(review))]),
       h('section.body', [
         h('div', computed(ratingLine, markdown)),
-        when(subjective.shelve,
-             h('div', ['Shelve: ', subjective.shelve])),
-        when(subjective.review,
-             h('div', ['Review: ', computed(subjective.review, markdown)]))
+        when(review.shelve,
+             h('div', ['Shelve: ', review.shelve])),
+        when(review.review,
+             h('div', ['Review: ', computed(review.review, markdown)]))
       ]),
       h('section.right', when(user == myKey, [
         ratingModal,
         h('i.fa.fa-pencil', { 'ev-click': () => isOpen.set(true) })
       ])),
       h('section.comments', [
-        when(subjective.comments.length, h('div.header', 'Comments:')),
-        map(subjective.comments, com => {
+        when(review.comments.length, h('div.header', 'Comments:')),
+        map(review.comments, com => {
           com.value = { timestamp: com.timestamp }
           return h('div',
                    [h('section.left', [avatar(com.author), name(com.author), timestamp(com)]),
@@ -144,13 +144,13 @@ module.exports = function BookShow (opts) {
           markdown(description))
       ]),
       h('section.clear'),
-      h('section.subjective', [
-        computed(state.subjective, subjectives => {
-          let reviews = []
-          Object.keys(subjectives).forEach(user => {
-            reviews.push(renderSubjective(user, subjectives[user]))
+      h('section.reviews', [
+        computed(state.reviews, reviews => {
+          let reviewsHTML = []
+          Object.keys(reviews).forEach(user => {
+            reviewsHTML.push(renderReview(user, reviews[user]))
           })
-          return reviews
+          return reviewsHTML
         })
       ])
     ]

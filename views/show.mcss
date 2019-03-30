@@ -82,7 +82,7 @@ BookShow {
     clear: left
   }
   
-  section.subjective {
+  section.reviews {
     margin-top: 30px
 
     display: grid
