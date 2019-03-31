@@ -30,13 +30,11 @@ module.exports = function ReviewEdit (opts) {
     const c = resolve(state.current)
 
     if (!isEqual(c, n)) {
-/* FIXME: publish bookUpdate
-      scuttle.put(book, n, (err, data) => {
+      scuttle.async.update(bookKey, n, (err, data) => {
         if (err) return console.error(err)
 
         afterPublish(data)
       })
-*/
     } else
       afterPublish()
   }
