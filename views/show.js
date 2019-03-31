@@ -105,13 +105,10 @@ module.exports = function BookShow (opts) {
         }),
         textAreaWrapper,
         h('button', { 'ev-click': () =>  {
-          /* FIXME:
-          obs.addCommentToSubjective(review.key,
-                                     lastCommentId || review.key,
-                                     comment(), () => {
-                                        textArea.value = ''
-                                     })
-          */
+          scuttle.async.comment(review.key,
+                                lastCommentId || review.key,
+                                comment(),
+                                () => textArea.value = '')
         } }, 'Add comment')
       ])
     ]
