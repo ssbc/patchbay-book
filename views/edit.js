@@ -41,8 +41,12 @@ module.exports = function BookEdit (opts) {
     const n = resolve(state.next)
     const c = resolve(state.current)
 
+    const { title, description, authors, series, seriesNo, images, genres, pages } = c
+
     if (!isEqual(c, n)) {
-      scuttle.put(book, n, (err, data) => {
+      scuttle.async.update(book,
+                           { title, description, authors, series, seriesNo, images, genres, pages },
+                           (err, data) => {
         if (err) return console.error(err)
 
         afterPublish(data)

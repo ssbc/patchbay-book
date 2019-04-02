@@ -56,7 +56,7 @@ module.exports = function BookForm (opts) {
         imageInput(),
         computed(state.images, image => {
           if (!image) return
-          return h('img', { src: blobUrl(image) })
+          return h('img', { src: blobUrl(image.link) })
         })
       ]),
       h('label', 'Synopsis'),
