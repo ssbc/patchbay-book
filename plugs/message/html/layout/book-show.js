@@ -32,16 +32,21 @@ exports.create = (api) => {
     if (opts.layout !== 'show') return
     if (!isBook(msg)) return
 
+    const scuttle = Scuttle(api.sbot.obs.connection)
+    let afterEditPublish = { cb: null }
+
     // editing modal
     const isOpen = Value(false)
     const form = Edit({
       book: msg.key,
-      scuttle: Scuttle(api.sbot.obs.connection),
+      scuttle,
       scuttleBlob: ScuttleBlob(api.sbot.obs.connection),
       blobUrl: api.blob.sync.url,
       onCancel: () => isOpen.set(false),
       afterPublish: (msg) => {
         isOpen.set(false)
+
+        if (afterEditPublish.cb) afterEditPublish.cb()
       }
     })
     
@@ -60,7 +65,7 @@ exports.create = (api) => {
     const show = Show({
       myKey: api.keys.sync.id(),
       book: msg,
-      scuttle: Scuttle(api.sbot.obs.connection),
+      scuttle,
       blobUrl: api.blob.sync.url,
       avatar: api.about.html.avatar,
       name: api.about.obs.name,
@@ -69,6 +74,7 @@ exports.create = (api) => {
       suggester,
       modal: api.app.html.modal,
       editBtn,
+      afterEditPublish,
       goTo: api.app.sync.goTo
     })
 

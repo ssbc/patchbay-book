@@ -41,7 +41,7 @@ module.exports = function BookEdit (opts) {
     const n = resolve(state.next)
     const c = resolve(state.current)
 
-    const { title, description, authors, series, seriesNo, images, genres, pages } = c
+    const { title, description, authors, series, seriesNo, images, genres, pages } = n
 
     if (!isEqual(c, n)) {
       scuttle.async.update(book,

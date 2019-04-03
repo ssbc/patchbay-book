@@ -15,15 +15,22 @@ module.exports = function BookShow (opts) {
     suggester = i => i,
     modal = i => i,
     goTo,
-    editBtn
+    editBtn,
+    afterEditPublish
   } = opts
 
   const state = Value()
   const isPublishing = Value(false)
 
-  scuttle.get(book.key, true, (err, data) => {
-    state.set(data)
-  })
+  function updateState() {
+    scuttle.get(book.key, true, (err, data) => {
+      state.set(data)
+    })
+  }
+
+  updateState()
+
+  afterEditPublish.cb = updateState
 
   function renderReview(user, review) {
     // review modal
@@ -36,6 +43,8 @@ module.exports = function BookShow (opts) {
       onCancel: () => isOpen.set(false),
       afterPublish: (msg) => {
         isOpen.set(false)
+
+        updateState()
       }
     })
 
