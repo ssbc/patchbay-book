@@ -22,11 +22,11 @@ module.exports = function bookCard (opts) {
   return h('BookCard', computed(state, state => {
     if (!state) return 'Loading...' // TODO - make nicer
 
-    const { title, description, authors, image, series, seriesNo } = state.common
+    const { title, description, authors, images, series, seriesNo } = state.common
 
     let src = ''
-    if (image)
-      src = blobUrl(image.link)
+    if (images)
+      src = blobUrl(images.link)
 
     return [
       h('div.details', [

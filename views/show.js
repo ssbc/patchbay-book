@@ -117,11 +117,11 @@ module.exports = function BookShow (opts) {
   return h('BookShow', computed(state, state => {
     if (!state) return h('div.loading', 'Loading...')
 
-    const { title, description, authors, image, series, seriesNo, genres, pages } = state.common
+    const { title, description, authors, images, series, seriesNo, genres, pages } = state.common
 
     let src = ''
-    if (image)
-      src = blobUrl(image.link)
+    if (images)
+      src = blobUrl(images.link)
 
     function showGenre(genre) {
       return h('a', {
