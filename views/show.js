@@ -85,8 +85,8 @@ module.exports = function BookShow (opts) {
          h('div.timestamp', timestamp(review))]),
       h('section.body', [
         h('div', computed(ratingLine, markdown)),
-        when(review.shelve,
-             h('div', ['Shelve: ', review.shelve])),
+        when(review.shelves,
+             h('div', ['Shelve: ', review.shelves])),
         when(review.review,
              h('div', ['Review: ', computed(review.review, markdown)]))
       ]),
