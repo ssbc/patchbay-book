@@ -88,6 +88,8 @@ module.exports = function BookShow (opts) {
     let textArea = h('textarea', {'ev-input': e => comment.set(e.target.value) })
     let textAreaWrapper = suggestiveTextArea(textArea)
 
+    let commentsActive = Value(false)
+
     return [
       h('section.left',
         [avatar(user),
@@ -112,13 +114,15 @@ module.exports = function BookShow (opts) {
                    [h('section.left', [avatar(com.author), h('div.name', name(com.author)), timestamp(com)]),
                     h('section.content', computed(com.content.text, markdown))])
         }),
-        textAreaWrapper,
-        h('button', { 'ev-click': () =>  {
-          scuttle.async.comment(review.key,
-                                lastCommentId || review.key,
-                                comment(),
-                                () => textArea.value = '')
-        } }, 'Add comment')
+        when(commentsActive, [
+          textAreaWrapper,
+          h('button', { 'ev-click': () =>  {
+            scuttle.async.comment(review.key,
+                                  lastCommentId || review.key,
+                                  comment(),
+                                  () => textArea.value = '')
+          } }, 'Post comment')
+        ], h('button', { 'ev-click': () => commentsActive.set(true) }, 'Write comment'))
       ])
     ]
   }
