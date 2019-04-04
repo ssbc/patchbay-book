@@ -109,10 +109,9 @@ module.exports = function BookShow (opts) {
         when(review.comments.length, h('div.header', 'Comments:')),
         map(review.comments, com => {
           lastCommentId = com.key
-          com.value = { timestamp: com.timestamp }
           return h('div',
-                   [h('section.left', [avatar(com.author), h('div.name', name(com.author)), timestamp(com)]),
-                    h('section.content', computed(com.content.text, markdown))])
+                   [h('section.left', [avatar(com.value.author), h('div.name', name(com.value.author)), timestamp(com)]),
+                    h('section.content', computed(com.value.content.text, markdown))])
         }),
         when(commentsActive, [
           textAreaWrapper,
@@ -120,7 +119,10 @@ module.exports = function BookShow (opts) {
             scuttle.async.comment(review.key,
                                   lastCommentId || review.key,
                                   comment(),
-                                  () => textArea.value = '')
+                                  () => {
+                                    textArea.value = ''
+                                    updateState()
+                                  })
           } }, 'Post comment')
         ], h('button', { 'ev-click': () => commentsActive.set(true) }, 'Write comment'))
       ])
