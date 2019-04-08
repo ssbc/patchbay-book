@@ -40,11 +40,11 @@ module.exports = function bookCard (opts) {
 
     return [
       h('div.details', [
-        h('Images', [
+        h('Left', [
           h('img', { src }),
           markdown(ratingLine)
         ]),
-        h('div', [
+        h('Main', [
           h('h2', title),
           h('Series', [
             h('a', { 'href': '#', 'ev-click': () => {
