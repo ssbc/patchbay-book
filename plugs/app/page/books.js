@@ -67,7 +67,7 @@ exports.create = function (api) {
       'ev-change': (ev) => {
         api.app.sync.goTo({
           page: 'books',
-          queryKey: "genre",
+          queryKey: "genres",
           queryValue: ev.target.selectedOptions[0].value
         })
       }
@@ -75,7 +75,7 @@ exports.create = function (api) {
       'ev-change': (ev) => {
         api.app.sync.goTo({
           page: 'books',
-          queryKey: "shelve",
+          queryKey: "shelves",
           queryValue: ev.target.selectedOptions[0].value
         })
       }
@@ -155,10 +155,19 @@ exports.create = function (api) {
             let value = book.common[queryKey]
             if (!value)
               value = book.reviews[myId][queryKey]
-            if (value)
-              value = value.toLowerCase()
-            if (value == lowercaseQueryValue)
-              books.push(book)
+
+            if (Array.isArray(value))
+            {
+              if (value.some(v => v.toLowerCase() == lowercaseQueryValue))
+                books.push(book)
+            }
+            else
+            {
+              if (value)
+                value = value.toLowerCase()
+              if (value == lowercaseQueryValue)
+                books.push(book)
+            }
           } else
             books.push(book)
         }, () => {
