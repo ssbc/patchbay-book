@@ -4,6 +4,7 @@ module.exports = function bookCard (opts) {
   const {
     book,
     hydratedBook,
+    myId,
     scuttle,
     blobUrl = () => '',
     avatar = i => h('div', i),
@@ -28,10 +29,21 @@ module.exports = function bookCard (opts) {
     if (images)
       src = blobUrl(images.link)
 
+    let ratingLine = ''
+    const review = state.reviews[myId]
+    if (review && review.rating) {
+      ratingLine = 'You rated ' + review.rating
+      if (review.ratingMax)
+        ratingLine += ' / ' + review.ratingMax
+      ratingLine += review.ratingType
+    }
+
     return [
       h('div.details', [
-        h('Images',
-          h('img', { src })),
+        h('Images', [
+          h('img', { src }),
+          markdown(ratingLine)
+        ]),
         h('div', [
           h('h2', title),
           h('Series', [

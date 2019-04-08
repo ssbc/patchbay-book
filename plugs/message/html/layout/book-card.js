@@ -9,6 +9,7 @@ exports.gives = nest('message.html.layout')
 exports.needs = nest({
   'about.html.avatar': 'first',
   'app.sync.goTo': 'first',
+  'keys.sync.id': 'first',
   'message.html.action': 'map',
   'message.html.markdown': 'first',
   'message.html.timestamp': 'first',
@@ -27,6 +28,7 @@ exports.create = (api) => {
     const card = Card({
       book: msg,
       hydratedBook: opts.hydratedBook,
+      myId: api.keys.sync.id(),
       scuttle: Scuttle(api.sbot.obs.connection),
       blobUrl: api.blob.sync.url,
       avatar: api.about.html.avatar,
