@@ -1,8 +1,8 @@
 {
   "name": "patchbay-book",
-  "version": "1.0.8",
-  "description": "The patchbay part of patch-book, a book rating system for patchcore compatible scuttlebutt clients",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "The patchbay code for integrating scuttle-book",
+  "main": "plugs/index.js",
   "directories": {
     "test": "test"
   },
@@ -11,11 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssb://%XRuVL/LEGbdpRjmhcH0P0tWEaoNjDF3b68yVXvt41pg=.sha256"
+    "url": "git+https://github.com/arj/patchbay-book.git"
   },
   "author": "Anders Rune Jensen <arj03@protonmail.ch>",
   "license": "Beerware",
   "dependencies": {
-    "patch-book": "^1.0.16"
+    "lodash.isequal": "^4.5.0",
+    "lodash.pick": "^4.4.0",
+    "micro-css": "^2.0.1",
+    "mutant": "^3.22.1",
+    "pull-scroll": "^1.0.9",
+    "read-directory": "^3.0.1",
+    "scuttle-blob": "^1.0.2",
+    "scuttle-book": "^2.0.4",
+    "ssb-book-schema": "^1.0.3",
+    "suggest-box": "^2.2.3"
   }
 }

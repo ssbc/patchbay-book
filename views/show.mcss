@@ -1,0 +1,222 @@
+BookShow {
+  --feature-color: hsla(320, 30%, 70%, 1)
+
+  section.about {
+    display: grid
+    align-content: start
+
+    h1 {
+      font-size: 2rem
+      margin-top: 1rem
+      margin-bottom: 1rem
+    }
+
+    div.edit {
+      margin-top: -3.5rem
+      margin-right: 1rem
+
+      justify-self: end
+      i {
+        color: #999
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        border-radius: 4px
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+      }
+    }
+  }
+  
+  div.Series {
+    span.seriesNo {
+      margin-left: 5px
+    }
+  }
+
+  div.Authors {
+    a {
+      color: #222
+    }
+    font-style: italic
+  }
+
+  div.Genres {
+    a {
+      padding-right: 10px
+    }
+  }
+
+  div.Pages {
+    margin-bottom: 0.5rem
+  }
+
+  section.content {
+    div.Images img {
+      float: left
+      max-width: 300px
+      max-height: 300px
+      padding: 0 0.5rem 0.5rem 0
+    }
+
+    div.Description {
+      min-height: 3rem
+
+      div.Description {
+        margin-top: 10px
+
+        textarea {
+          border: 1px solid gainsboro
+          width: 300px
+          height: 250px
+        }
+      }
+    }
+  }
+
+  section.clear {
+    clear: left
+  }
+  
+  section.reviews {
+    margin-top: 30px
+
+    display: grid
+    grid-template-columns: 6rem 1fr minmax(6rem, auto)
+    grid-gap: 1.5rem
+
+    section.right {
+      label {
+        padding-right: 0.5rem
+        font-size: 0.8rem
+        color: #999
+      }
+
+      i {
+        color: #999
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        border-radius: 4px
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+      }
+    }
+
+    section.left {
+      display: grid
+      grid-column: 1
+      justify-items: end
+
+      div.timestamp {
+        padding-top: 5px
+      }
+    }
+
+    section.body {
+      display: grid
+      grid-column: 2
+      justify-items: start
+
+      section.addRating {
+        label {
+          padding-right: 0.5rem
+        }
+
+        cursor: pointer
+        padding: .5rem
+        border: 1px solid #ccc
+        height: 1.15rem
+        text-transform: uppercase
+        font-size: 0.8rem
+
+        :hover {
+          color: #fff
+          background: hsla(170, 80%, 60%, 1)
+          border: 1px solid hsla(170, 80%, 60%, 1)
+        }
+
+        i {
+          color: #999
+        }
+      }
+    }
+
+    section.comments {
+      grid-column-start: span 2
+      padding-left: 120px
+
+      /* add comment area */
+      span > textarea {
+        border: 1px solid gainsboro
+        width: 650px
+        height: 200px
+        display: block
+        margin-left: 5.5rem
+      }
+
+      button {
+        margin-left: 5.5rem
+        margin-bottom: 20px
+      }
+
+      div.header {
+        font-size: 0.8rem
+        font-weight: bold
+      }
+
+      div {
+        display: grid
+        grid-template-columns: 4.5rem 1fr minmax(6rem, auto)
+        grid-gap: 1rem
+        padding-bottom: 10px
+
+        section.left {
+          display: grid
+          grid-column: 1
+          justify-items: end
+          align-content: start
+
+          img.Avatar {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.5rem
+            grid-row: 1
+          }
+
+          div.name {
+            font-weight: 600
+            grid-row: 2
+          }
+
+          a.Timestamp {
+            font-size: 0.8rem
+            margin-left: 0.3rem
+            grid-row: 3
+          }
+        }
+
+        section.content {
+          display: grid
+          grid-column: 2
+          justify-items: start
+
+          img.emoji {
+            height: 1.2em;
+            width: 1.2em;
+            vertical-align: middle;
+            margin-top: -0.2em;
+          }
+        }
+      }
+    }
+  }
+}
