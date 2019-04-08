@@ -136,9 +136,9 @@ exports.create = function (api) {
           else
             addNewGenre(genres)
 
-          const shelve = book.reviews[myId].shelve
-          if (shelve)
-            bookShelves.add(shelve)
+          const shelves = book.reviews[myId].shelves
+          if (shelves)
+            bookShelves.add(shelves)
 
           book.readers.map(reader => bookReaders.add(reader))
 
