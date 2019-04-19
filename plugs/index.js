@@ -19,7 +19,8 @@ const plugs = {
         'book-show': require('./message/html/layout/book-show')
       },
       render: {
-        book: require('./message/html/render/book')
+        book: require('./message/html/render/book'),
+        bookReview: require('./message/html/render/book-review')
       }
     }
   },
