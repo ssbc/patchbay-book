@@ -1,6 +1,6 @@
 {
   "name": "patchbay-book",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "The patchbay code for integrating scuttle-book",
   "main": "plugs/index.js",
   "directories": {
@@ -23,7 +23,7 @@
     "pull-scroll": "^1.0.9",
     "read-directory": "^3.0.1",
     "scuttle-blob": "^1.0.2",
-    "scuttle-book": "^2.0.4",
+    "scuttle-book": "^2.0.6",
     "ssb-book-schema": "^1.0.3",
     "suggest-box": "^2.2.3"
   }
