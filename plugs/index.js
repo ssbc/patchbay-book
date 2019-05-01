@@ -20,7 +20,8 @@ const plugs = {
       },
       render: {
         book: require('./message/html/render/book'),
-        bookReview: require('./message/html/render/book-review')
+        bookReview: require('./message/html/render/book-review'),
+        bookComment: require('./message/html/render/book-comment')
       }
     }
   },
