@@ -10,7 +10,8 @@ exports.needs = nest({
   'message.html.markdown': 'first',
   'message.html.meta': 'map',
   'message.html.timestamp': 'first',
-  'sbot.obs.connection': 'first'
+  'sbot.obs.connection': 'first',
+  'sbot.async.get': 'first'
 })
 
 exports.gives = nest({
@@ -25,7 +26,18 @@ exports.create = function (api) {
   function renderBookComment(msg, { pageId } = {}) {
     if (!isBookComment(msg)) return
 
-    let commentText = 'Wrote the following comment [on](' + msg.value.content.root + '):'
+    let commentText = Value('Commented [on](' + msg.value.content.root + '):')
+
+    api.sbot.async.get(msg.value.content.root, (err, ratingMsg) => {
+      if (err) throw err
+
+      const scuttle = Scuttle(api.sbot.obs.connection)
+      scuttle.get(ratingMsg.content.updates, false, (err, book) => {
+        if (err) throw err
+
+        commentText.set('Commented on a [rating](' + msg.value.content.root + ') of [' + book.common.title + '](' + book.key + '):')
+      })
+    })
 
     var { author, timestamp, meta } = api.message.html
 
