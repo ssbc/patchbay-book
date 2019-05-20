@@ -51,16 +51,17 @@ module.exports = function BookShow (opts) {
     const ratingModal = modal(form, { isOpen })
 
     if (!review["key"]) {
-      return [
+      return h('section', [
         ratingModal,
         h('section.left',
           avatar(user)),
         h('section.body', h('section.addRating', {
-          'ev-click': () => isOpen.set(true) }, [
+          'ev-click': () => isOpen.set(true)
+        }, [
             h('label', 'Add rating'),
             h('i.fa.fa-star')
         ]))
-      ]
+      ])
     }
 
     let ratingLine = ''
@@ -90,7 +91,7 @@ module.exports = function BookShow (opts) {
 
     let commentsActive = Value(false)
 
-    return [
+    return h('section', [
       h('section.left',
         [avatar(user),
          h('div.timestamp', timestamp(review))]),
@@ -126,7 +127,7 @@ module.exports = function BookShow (opts) {
           } }, 'Post comment')
         ], h('button', { 'ev-click': () => commentsActive.set(true) }, 'Write comment'))
       ])
-    ]
+    ])
   }
 
   return h('BookShow', computed(state, state => {
